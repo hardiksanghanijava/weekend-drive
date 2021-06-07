@@ -1,4 +1,4 @@
-package com.WeekendDrive.Interview.Mini.Project.Bean;
+package com.WeekendDrive.Interview.Mini.Project.Bean.Round;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

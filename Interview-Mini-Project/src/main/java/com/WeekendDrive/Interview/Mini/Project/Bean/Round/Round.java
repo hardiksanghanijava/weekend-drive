@@ -1,14 +1,17 @@
-package com.WeekendDrive.Interview.Mini.Project.Bean;
+package com.WeekendDrive.Interview.Mini.Project.Bean.Round;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 @Entity
+@DynamicUpdate
 public class Round {
 
 	@Id
-	@GeneratedValue
+	//@GeneratedValue
 	private int id;
 
 	private String name;
