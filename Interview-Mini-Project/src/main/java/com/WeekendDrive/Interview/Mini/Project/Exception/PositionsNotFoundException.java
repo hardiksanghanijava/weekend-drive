@@ -1,4 +1,4 @@
-package com.example.demo.bean;
+package com.WeekendDrive.Interview.Mini.Project.Exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

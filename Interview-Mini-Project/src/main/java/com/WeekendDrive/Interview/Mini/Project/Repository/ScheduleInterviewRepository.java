@@ -3,9 +3,9 @@ package com.WeekendDrive.Interview.Mini.Project.Repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.WeekendDrive.Interview.Mini.Project.Bean.Round;
+import com.WeekendDrive.Interview.Mini.Project.Bean.ScheduleInterview;
 
 @Repository
-public interface RoundRepository extends JpaRepository<Round, Integer> {
+public interface ScheduleInterviewRepository extends JpaRepository<ScheduleInterview,Integer>{
 
 }

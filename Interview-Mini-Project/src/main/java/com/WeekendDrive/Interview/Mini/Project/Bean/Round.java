@@ -1,7 +1,11 @@
 package com.WeekendDrive.Interview.Mini.Project.Bean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.DynamicUpdate;
@@ -18,6 +22,9 @@ public class Round {
 	private String name;
 
 	private int sequence;
+	
+	@OneToMany
+	List<ScheduleInterview> scheduleInterview = new ArrayList<>();
 
 	protected Round() {}
 	
@@ -62,6 +69,24 @@ public class Round {
 	public void setSequence(int sequence) {
 		this.sequence = sequence;
 	}
+
+
+
+	public List<ScheduleInterview> getScheduleInterview() {
+		return scheduleInterview;
+	}
+
+
+
+	public void addScheduleInterview(ScheduleInterview scheduleInterview) {
+		this.scheduleInterview .add(scheduleInterview);
+	}
+	
+	public void removeScheduleInterview(ScheduleInterview scheduleInterview) {
+		this.scheduleInterview .remove(scheduleInterview);
+	}
+	
+	
 
 
 }

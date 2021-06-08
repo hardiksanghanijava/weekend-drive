@@ -1,4 +1,4 @@
-package com.example.demo.bean;
+package com.WeekendDrive.Interview.Mini.Project.Bean;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
