@@ -9,11 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import com.WeekendDrive.Interview.Mini.Project.Bean.Interviewee;
 import com.WeekendDrive.Interview.Mini.Project.Bean.ScheduleInterview;
 import com.WeekendDrive.Interview.Mini.Project.Exception.IntervieweeNotFoundException;
 import com.WeekendDrive.Interview.Mini.Project.Repository.ScheduleInterviewRepository;
@@ -24,17 +21,17 @@ public class ScheduleInterviewService {
 	@Autowired
 	private ScheduleInterviewRepository repository;
 	
-Logger log = LoggerFactory.getLogger(this.getClass());
+	Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	//Retrieve all records from database
 	public List<ScheduleInterview> findAll(){
-		List<ScheduleInterview> find = repository.findAll();
+		List<ScheduleInterview> find =  repository.findAll();
 		log.info("All Retieved Records : " + find);
 		return find;
 	}
 	
 	//Retrieve records by id
-	public Optional<ScheduleInterview> findById(@PathVariable int id){
+	public Optional<ScheduleInterview> findById(int id){
 		Optional<ScheduleInterview> user = repository.findById(id);
 		log.info("Find record by id : " + user);
 		if(user.isEmpty())
@@ -43,15 +40,15 @@ Logger log = LoggerFactory.getLogger(this.getClass());
 	}
 	
 	//Create New Resource
-	public ResponseEntity<Object> createInterviewee(@Validated @RequestBody ScheduleInterview ScheduleInterview) {
-		Interviewee save = repository.save(ScheduleInterview);
+	public ResponseEntity<Object> createInterviewee(ScheduleInterview scheduleInterview) {
+		ScheduleInterview save = repository.save(scheduleInterview);
 		log.info("Created Resource : " + save);
 		return new ResponseEntity<Object>(HttpStatus.CREATED);
 	}
 	
 	//Delete Resource By Id
 	public void deleteById(@PathVariable int id) {
-		Optional<Interview> user = repository.findById(id);
+		Optional<ScheduleInterview> user = repository.findById(id);
 		if(user.isEmpty())
 			throw new IntervieweeNotFoundException("Resource " + id + " Not Found");
 		else {
@@ -61,16 +58,16 @@ Logger log = LoggerFactory.getLogger(this.getClass());
 	}
 	
 	//Update existing resource
-	public ResponseEntity<Object> updateInterviewee(@Validated @RequestBody Interviewee interviewee) {
-		Optional<Interviewee> user = repository.findById(interviewee.getId());
+	public ResponseEntity<Object> updateInterviewee(int id, ScheduleInterview scheduleInterview) {
+		Optional<ScheduleInterview> user = repository.findById(id);
 		if(user.isPresent()) {
 			log.info("Updated Resource From : " + user );
-			Interviewee update = repository.save(interviewee);
+			ScheduleInterview update = repository.save(scheduleInterview);
 			log.info("To : " + update);
 			return new ResponseEntity<Object>(HttpStatus.ACCEPTED);
 		}
 		else
-			throw new IntervieweeNotFoundException("Resource " + interviewee.getId() + " not fond for updatation");
+			throw new IntervieweeNotFoundException("Resource " + scheduleInterview.getId() + " not fond for updatation");
 	}
 	
 	

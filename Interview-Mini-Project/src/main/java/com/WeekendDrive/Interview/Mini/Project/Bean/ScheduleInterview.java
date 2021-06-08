@@ -1,33 +1,73 @@
 package com.WeekendDrive.Interview.Mini.Project.Bean;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Entity
+@SQLDelete(sql="update scheduled_interview set isdeleted=true where id = ?")
+@Where(clause="isdeleted = false")
+@Table(name="scheduled_interview")
 public class ScheduleInterview {
 	
 
 	@Id
 	private int id;
+	//@Column(name="intervieweeid")
+//	private int intervieweeid;
+//	private int interviewerid;
+//	private int positionid;
+//	private int roundid;
 	private Date time;
 	private String status;
+	private boolean isdeleted;
 	
-	@ManyToOne
-	Interviewee interviewee;
 	
-	@ManyToOne
-	Interviewer interviewer;
+	@ManyToOne(fetch=FetchType.LAZY)
+	private Interviewee interviewee;
 	
-	@ManyToOne
-	Positions positions;
+	@ManyToOne(fetch=FetchType.LAZY)
+	private Interviewer interviewer;
 	
-	@ManyToOne
-	Round round;
+	@ManyToOne(fetch=FetchType.LAZY)
+	private Positions positions;
 	
+	@ManyToOne(fetch=FetchType.LAZY)
+	private Round round;
+	
+	
+
+	public Interviewee getInterviewee() {
+		return interviewee;
+	}
+
+	public Interviewer getInterviewer() {
+		return interviewer;
+	}
+
+	public Positions getPositions() {
+		return positions;
+	}
+
+	public Round getRound() {
+		return round;
+	}
+
+	public boolean isIsdeleted() {
+		return isdeleted;
+	}
+
+	public void setIsdeleted(boolean isdeleted) {
+		this.isdeleted = isdeleted;
+	}
+
 	protected ScheduleInterview() {}
 	
 	public ScheduleInterview(int id, Date time, String status) {
@@ -62,37 +102,7 @@ public class ScheduleInterview {
 	}
 
 	
-	public Interviewee getInterviewee() {
-		return interviewee;
-	}
-
-	public void setInterviewee(Interviewee interviewee) {
-		this.interviewee = interviewee;
-	}
-
-	public Interviewer getInterviewer() {
-		return interviewer;
-	}
-
-	public void setInterviewer(Interviewer interviewer) {
-		this.interviewer = interviewer;
-	}
-
-	public Positions getPositions() {
-		return positions;
-	}
-
-	public void setPositions(Positions positions) {
-		this.positions = positions;
-	}
-
-	public Round getRound() {
-		return round;
-	}
-
-	public void setRound(Round round) {
-		this.round = round;
-	}
+	
 
 	@Override
 	public String toString() {

@@ -15,33 +15,33 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.WeekendDrive.Interview.Mini.Project.Bean.Interviewer;
-import com.WeekendDrive.Interview.Mini.Project.Service.InterviewerService;
+import com.WeekendDrive.Interview.Mini.Project.Bean.ScheduleInterview;
+import com.WeekendDrive.Interview.Mini.Project.Service.ScheduleInterviewService;
 
 
 @RestController
-@RequestMapping("/api/interviewer")
-public class InterviewerController {
+@RequestMapping("/api/interview")
+public class ScheduleInterviewController {
 
 	@Autowired
-	private InterviewerService service;
+	private ScheduleInterviewService service;
 	
-	//retrieve All Data
-	@GetMapping("/list")
-	public List<Interviewer> findAll(){
+	//Find All Data
+	@GetMapping("/schedule")
+	public List<ScheduleInterview> findAll(){
 		return service.findAll();
 	}
 	
 	//Find Data By Id
-	@GetMapping("/view/{id}")
-	public Optional<Interviewer> findById(@PathVariable int id){
+	@GetMapping("/schedule/{id}")
+	public Optional<ScheduleInterview> findById(@PathVariable int id){
 		return service.findById(id);
 	}
-	
+		
 	//Create Resource
 	@PostMapping("/add")
-	public ResponseEntity<Object> createInterviewer(@Validated @RequestBody Interviewer interviewer) {
-		return service.createInterviewer(interviewer);
+	public ResponseEntity<Object> createInterviewee(@Validated @RequestBody ScheduleInterview scheduleInterview) {
+		return service.createInterviewee(scheduleInterview);
 	}
 	
 	//Delete Resource By Id
@@ -51,9 +51,9 @@ public class InterviewerController {
 	}
 	
 	//Update Resource
-	@PutMapping("/update")
-	public ResponseEntity<Object> updateInterviewer(@Validated @RequestBody Interviewer interviewer) {
-		return service.updateInterviewer(interviewer);
+	@PutMapping("/update/{id}")
+	public ResponseEntity<Object> updateInterviewee(@Validated @PathVariable int id, @RequestBody ScheduleInterview scheduleInterview) {
+		return service.updateInterviewee(id, scheduleInterview);
 	}
 	
 	

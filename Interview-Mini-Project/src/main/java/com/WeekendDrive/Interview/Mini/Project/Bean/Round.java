@@ -10,8 +10,11 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.DynamicUpdate;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @DynamicUpdate
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler","scheduleInterview"})
 public class Round {
 
 	@Id
@@ -23,7 +26,7 @@ public class Round {
 
 	private int sequence;
 	
-	@OneToMany
+	@OneToMany(mappedBy="round")
 	List<ScheduleInterview> scheduleInterview = new ArrayList<>();
 
 	protected Round() {}

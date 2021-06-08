@@ -1,14 +1,19 @@
 package com.WeekendDrive.Interview.Mini.Project.Bean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "positions")
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler","scheduleInterview"})
 public class Positions 
 {
 	@Id
@@ -18,11 +23,14 @@ public class Positions
 	private String name;
 	private String description;
 	
+	@OneToMany(mappedBy="positions")
+	private List<ScheduleInterview> scheduleInterview = new ArrayList<>();
+	
 	public Positions() {}
 
 	public int getId() {
 		return id;
-	}
+	} 
 
 	public void setId(int id) {
 		this.id = id;
