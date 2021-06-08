@@ -1,8 +1,8 @@
-package com.WeekendDrive.Interview.Mini.Project.Bean.Round;
+package com.WeekendDrive.Interview.Mini.Project.Bean;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -14,6 +14,7 @@ public class Round {
 	//@GeneratedValue
 	private int id;
 
+	@Size(min=3, message="name should be more than 2 letters")
 	private String name;
 
 	private int sequence;
