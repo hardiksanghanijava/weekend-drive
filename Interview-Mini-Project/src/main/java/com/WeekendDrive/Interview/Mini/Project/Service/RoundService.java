@@ -22,20 +22,20 @@ public class RoundService {
 	Logger logger= LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
-	private RoundRepository repository;
+	private RoundRepository roundRepository;
 	
 	//method to retrieve all the rounds	
-	public List<Round> findAll(){
-		List<Round> round= new ArrayList<>();
-		round=repository.findAll();
-		logger.info("All the retrieved methods are{}",round);
-		return round;
+	public List<Round> getAllRounds(){
+		List<Round> rounds= new ArrayList<>();
+		rounds=roundRepository.findAll();
+		logger.info("All the retrieved methods are{}",rounds);
+		return rounds;
 	}
 	
 	//method to retrieve the rounds by specific id	
-	public Optional<Round> findById( int id){
+	public Optional<Round> getRoundById( int id){
 	
-		Optional<Round> round = repository.findById(id);
+		Optional<Round> round = roundRepository.findById(id);
 		if(!round.isPresent()) {
 			throw new RoundNotFoundException("Round not found for id="+id);
 		}
@@ -44,32 +44,32 @@ public class RoundService {
 	}
 	
 	//method to delete the rounds by specific id
-	public ResponseEntity<Object> deleteById( int id){
-		Optional<Round> round = repository.findById(id);
+	public void deleteRound( int id){
+		Optional<Round> round = roundRepository.findById(id);
 		if(!round.isPresent()) {
 			throw new RoundNotFoundException("Round not found for id="+id);
 		}else {
+		logger.info("Deleted round is{}",round);
+		roundRepository.deleteById(id);
 		
-		repository.deleteById(id);
-		return new ResponseEntity<Object>(HttpStatus.ACCEPTED);
 		}
 	}
 	
  
 	//method to update the rounds by specific id
-	public ResponseEntity<Object> updateById( int id, Round round){
-		Round round1 = repository.findById(id).get();
-		if(round1.equals(null)) {
+	public void updateRound( int id, Round round){
+		Round updatedRound = roundRepository.findById(id).get();
+		if(updatedRound.equals(null)) {
 			throw new RoundNotFoundException("Round not found for id="+id);
 		}
 		if(round.getName() != null) {
-			round1.setName(round.getName());
+			updatedRound.setName(round.getName());
 		}
 		if(round.getSequence() != 0)
-		round1.setSequence(round.getSequence());
-		repository.save(round1);
-		logger.info("The updated fields are{}",round1);
-		return new ResponseEntity<Object>(HttpStatus.ACCEPTED);
+		updatedRound.setSequence(round.getSequence());
+		roundRepository.save(updatedRound);
+		logger.info("The updated fields are{}",updatedRound);
+		
 		
 	}
 	

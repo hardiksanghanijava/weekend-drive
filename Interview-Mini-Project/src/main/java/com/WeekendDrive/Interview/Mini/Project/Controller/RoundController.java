@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,31 +24,33 @@ import com.WeekendDrive.Interview.Mini.Project.Service.RoundService;
 public class RoundController {
 	
 	@Autowired
-	private RoundService service;
+	private RoundService roundService;
 	
 	//method to retrieve all the rounds	
 	@GetMapping("/list")
-	public List<Round> retrieveAll(){
-		return service.findAll();
+	public List<Round> getAllRounds(){
+		return roundService.getAllRounds();
 	}
 	
 	//method to retrieve the rounds by specific id	
 	@GetMapping("/view/{id}")
-	public Optional<Round> retrieveById(@PathVariable int id){
+	public Optional<Round> getRoundById(@PathVariable int id){
 	
-		return service.findById(id);
+		return roundService.getRoundById(id);
 	}
 	
 	//method to delete the rounds by specific id	
 	@DeleteMapping("/delete/{id}")
-	public  ResponseEntity<Object> deleteById(@PathVariable int id){
-		return service.deleteById(id);
+	public  ResponseEntity<Object> deleteRound(@PathVariable int id){
+		roundService.deleteRound(id);
+		return new ResponseEntity<Object>(HttpStatus.ACCEPTED);
 	}
 	
 	//method to update the rounds by specific id
     @PostMapping("/update/{id}")
-	public  ResponseEntity<Object> updateById(@Valid @PathVariable int id, @RequestBody Round round){
-		return service.updateById(id, round);
+	public  ResponseEntity<Object> updateRound(@Valid @PathVariable int id, @RequestBody Round round){
+		roundService.updateRound(id, round);
+		return new ResponseEntity<Object>(HttpStatus.ACCEPTED);
 		
 	}
 	

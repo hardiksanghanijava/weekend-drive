@@ -22,52 +22,52 @@ import com.WeekendDrive.Interview.Mini.Project.Repository.InterviewerRepository;
 public class InterviewerService {
 
 	@Autowired
-	private InterviewerRepository repository;
+	private InterviewerRepository interviewerRepository;
 	
 	Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	//Retrieve all records from database
-	public List<Interviewer> findAll(){
-		List<Interviewer> find = repository.findAll();
-		logger.info("All Retieved Records :{} " + find);
-		return find;
+	public List<Interviewer> getAllInterviewers(){
+		List<Interviewer> interviewers = interviewerRepository.findAll();
+		logger.info("All Retieved Records :{} " + interviewers);
+		return interviewers;
 	}
 	
 	//find by id method
-	public Optional<Interviewer> findById(@PathVariable int id){
-		Optional<Interviewer> user = repository.findById(id);
-		logger.info("record by id : {}" + user);
-		if(user.isEmpty())
+	public Optional<Interviewer> getInterviewerById( int id){
+		Optional<Interviewer> interviewer = interviewerRepository.findById(id);
+		logger.info("record by id : {}" + interviewer);
+		if(interviewer.isEmpty())
 			throw new InterviewerNotFoundException("Resource " + id + " Not Found");
-		return user;
+		return interviewer;
 	}
 	
 	//Create New record
-	public ResponseEntity<Object> createInterviewer(@Validated @RequestBody Interviewer Interviewer) {
-		Interviewer save = repository.save(Interviewer);
-		logger.info("Created Record : {}" + save);
-		return new ResponseEntity<Object>(HttpStatus.CREATED);
+	public void createInterviewer( Interviewer Interviewer) {
+		Interviewer savedInterviewer = interviewerRepository.save(Interviewer);
+		logger.info("Created Record : {}" + savedInterviewer);
+		
 	}
 	
 	//Delete Resource By Id
-	public void deleteById(@PathVariable int id) {
-		Optional<Interviewer> user = repository.findById(id);
-		if(user.isEmpty())
+	public void deleteInterviewer( int id) {
+		Optional<Interviewer> interviewer = interviewerRepository.findById(id);
+		if(interviewer.isEmpty())
 			throw new InterviewerNotFoundException("Resource " + id + " Not Found");
 		else {
-			logger.info("Deleted resource : {}" + user);
-			repository.deleteById(id);
+			logger.info("Deleted resource : {}" + interviewer);
+			interviewerRepository.deleteById(id);
 		}
 	}
 	
 	//Update existing resource
-	public ResponseEntity<Object> updateInterviewer(@Validated @RequestBody Interviewer Interviewer) {
-		Optional<Interviewer> user = repository.findById(Interviewer.getId());
-		if(user.isPresent()) {
-			logger.info("Updated Resource From : " + user );
-			Interviewer update = repository.save(Interviewer);
-			logger.info("To : " + update);
-			return new ResponseEntity<Object>(HttpStatus.ACCEPTED);
+	public void updateInterviewer( Interviewer Interviewer) {
+		Optional<Interviewer> interviewer = interviewerRepository.findById(Interviewer.getId());
+		if(interviewer.isPresent()) {
+			logger.info("Updated Resource From : " + interviewer );
+			Interviewer updatedInterviewer = interviewerRepository.save(Interviewer);
+			logger.info("To : " + updatedInterviewer);
+			
 		}
 		else
 			throw new InterviewerNotFoundException("Resource " + Interviewer.getId() + " not found for updation");

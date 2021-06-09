@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,36 +25,39 @@ import com.WeekendDrive.Interview.Mini.Project.Service.InterviewerService;
 public class InterviewerController {
 
 	@Autowired
-	private InterviewerService service;
+	private InterviewerService interviewerService;
 	
 	//retrieve All Data
 	@GetMapping("/list")
-	public List<Interviewer> findAll(){
-		return service.findAll();
+	public List<Interviewer> getAllInterviewer(){
+		return interviewerService.getAllInterviewers();
 	}
 	
 	//Find Data By Id
 	@GetMapping("/view/{id}")
-	public Optional<Interviewer> findById(@PathVariable int id){
-		return service.findById(id);
+	public Optional<Interviewer> getInterviewerById(@PathVariable int id){
+		return interviewerService.getInterviewerById(id);
 	}
 	
 	//Create Resource
 	@PostMapping("/add")
 	public ResponseEntity<Object> createInterviewer(@Validated @RequestBody Interviewer interviewer) {
-		return service.createInterviewer(interviewer);
+		interviewerService.createInterviewer(interviewer);
+		return new ResponseEntity<Object>(HttpStatus.ACCEPTED);
 	}
 	
 	//Delete Resource By Id
 	@DeleteMapping("/delete/{id}")
-	public void deleteById(@PathVariable int id) {
-		service.deleteById(id);
+	public ResponseEntity<Object> deleteById(@PathVariable int id) {
+		interviewerService.deleteInterviewer(id);
+		return new ResponseEntity<Object>(HttpStatus.ACCEPTED);
 	}
 	
 	//Update Resource
 	@PutMapping("/update")
 	public ResponseEntity<Object> updateInterviewer(@Validated @RequestBody Interviewer interviewer) {
-		return service.updateInterviewer(interviewer);
+		interviewerService.updateInterviewer(interviewer);
+		return new ResponseEntity<Object>(HttpStatus.ACCEPTED);
 	}
 	
 	
