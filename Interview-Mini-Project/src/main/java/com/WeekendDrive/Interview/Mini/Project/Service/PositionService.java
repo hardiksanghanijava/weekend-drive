@@ -1,63 +1,64 @@
-package com.WeekendDrive.Interview.Mini.Project.Service;
+package com.example.demo.bean;
+
 
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import com.WeekendDrive.Interview.Mini.Project.Bean.Positions;
-import com.WeekendDrive.Interview.Mini.Project.Exception.PositionsNotFoundException;
-import com.WeekendDrive.Interview.Mini.Project.Repository.PositionsRepo;
 
 @Service
 public class PositionService {
 
-
+	Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
-	private PositionsRepo repo;
+	private PositionsRepository positionRepository;
 	
 	//get all data
-	public List<Positions> findAll(){
-		return repo.findAll();
+	public List<Positions> getAllPositions(){
+		List<Positions> positions =  positionRepository.findAll();
+		logger.info("Get all Position: ",positions);
+		return positions;
 	}
 	
 	//get particular data
-	public Optional<Positions> findById(int id){
-		Optional<Positions> positions = repo.findById(id);
+	public Optional<Positions> getPositionById(int id){
+		Optional<Positions> positions = positionRepository.findById(id);
 		if(positions.isEmpty())
 			throw new PositionsNotFoundException("Id : " + id);
+		logger.info("Get Position By Id: ",positions);
 		return positions;
 	}
 	
 	//create Data
-	public ResponseEntity<Object> createData(Positions positions) {
-		Optional<Positions> position = repo.findById(positions.getId());
+	public void createPosition(Positions positions) {
+		Optional<Positions> position = positionRepository.findById(positions.getId());
 		if(position.isPresent())
-			return new ResponseEntity<Object>(HttpStatus.ALREADY_REPORTED);
-		repo.save(positions);
-		return new ResponseEntity<Object>(HttpStatus.CREATED);
+		positionRepository.save(positions);
+		logger.info("Create Position: ",positions);
 	}
 	
 	//delete Data
-	public void deleteById(int id) {
-		Optional<Positions> positions = repo.findById(id);
+	public void deletePosition(int id) {
+		Optional<Positions> positions = positionRepository.findById(id);
 		if(positions.isEmpty())
 			throw new PositionsNotFoundException("Id : " + id);
 		else
-			repo.deleteById(id);
+			logger.info("Delete Position: ",positions);
+			positionRepository.deleteById(id);
 	}
 	
 	//update Data
-	public ResponseEntity<Object> updateData(Positions positions) {
-		Optional<Positions> p = repo.findById(positions.getId());
-		if(p.isPresent()) {
-			repo.save(positions);
-			return new ResponseEntity<Object>(HttpStatus.ACCEPTED);
+	public void updatePosition(Positions positions) {
+		Optional<Positions> position = positionRepository.findById(positions.getId());
+		if(position.isPresent()) {
+			positionRepository.save(positions);
+			logger.info("Update Position: ",position);
 		}
 		else
-			return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
-	}
+			logger.info("Update Fails: ",position);
+		}
 }

@@ -1,9 +1,10 @@
-package com.WeekendDrive.Interview.Mini.Project.Controller;
+package com.example.demo.bean;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,52 +16,51 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.WeekendDrive.Interview.Mini.Project.Bean.Positions;
-import com.WeekendDrive.Interview.Mini.Project.Service.PositionService;
-
 
 @RestController
 @RequestMapping("/api/positions")
 public class PositionsController
 {
 	@Autowired
-	PositionService service;
+	PositionService positionService;
 	
-	//Get All Data
+	//Get All Position
 	@GetMapping("/list")
-	public List<Positions> retriveAllData()
+	public List<Positions> getAllPositions()
 	{
-		return service.findAll();
+		return positionService.getAllPositions();
 	}
 	
 	//Get Specific Data
 	@GetMapping("/view/{id}")
-	public Optional<Positions> getParticularData(@PathVariable("id") int id)
+	public Optional<Positions> getPositionById(@PathVariable("id") int id)
 	{
-		return service.findById(id);
+		return positionService.getPositionById(id);
 	}
 	
 	//Delete specific data
 	@DeleteMapping("delete/{id}")
-	public void deleteData(@PathVariable("id") int id)
+	public ResponseEntity<Object> deletePosition(@PathVariable("id") int id)
 	{
-		service.deleteById(id);
+		positionService.deletePosition(id);
+		return new ResponseEntity<Object>(HttpStatus.ACCEPTED);
 	}
 	
 	// Create Data
 	@PostMapping("/add")
-	public ResponseEntity<Object> createData(@Validated @RequestBody Positions positions)
+	public ResponseEntity<Object> createPosition(@Validated @RequestBody Positions positions)
 	{
-		return service.createData(positions);
+		 positionService.createPosition(positions);
+		 return new ResponseEntity<Object>(HttpStatus.ALREADY_REPORTED);
 		
 	}
 	
-	// Create Data
+	// Update Data
 	@PutMapping("/update")
-	public ResponseEntity<Object> updateData(@Validated @RequestBody Positions positions)
+	public ResponseEntity<Object> updatePositions(@Validated @RequestBody Positions positions)
 	{
-			return service.updateData(positions);
-			
+		positionService.updatePosition(positions);
+	    return new ResponseEntity<Object>(HttpStatus.ACCEPTED);	
 	}
 		
 }
