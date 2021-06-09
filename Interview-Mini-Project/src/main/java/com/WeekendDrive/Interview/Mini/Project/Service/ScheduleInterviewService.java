@@ -6,10 +6,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.WeekendDrive.Interview.Mini.Project.Bean.ScheduleInterview;
 import com.WeekendDrive.Interview.Mini.Project.Exception.IntervieweeNotFoundException;
@@ -19,52 +16,50 @@ import com.WeekendDrive.Interview.Mini.Project.Repository.ScheduleInterviewRepos
 public class ScheduleInterviewService {
 
 	@Autowired
-	private ScheduleInterviewRepository repository;
+	private ScheduleInterviewRepository scheduleinterviewRepository;
 	
 	Logger log = LoggerFactory.getLogger(this.getClass());
 	
-	//Retrieve all records from database
-	public List<ScheduleInterview> findAll(){
-		List<ScheduleInterview> find =  repository.findAll();
-		log.info("All Retieved Records : " + find);
-		return find;
+	//Retrieve all scheduled interview
+	public List<ScheduleInterview> getAllScheduleInterview(){
+		List<ScheduleInterview> scheduleInterview =  scheduleinterviewRepository.findAll();
+		log.info("All Retieved Records : " + scheduleInterview);
+		return scheduleInterview;
 	}
 	
-	//Retrieve records by id
-	public Optional<ScheduleInterview> findById(int id){
-		Optional<ScheduleInterview> user = repository.findById(id);
-		log.info("Find record by id : " + user);
-		if(user.isEmpty())
+	//Retrieve scheduled interview by id
+	public Optional<ScheduleInterview> getScheduleInterviewById(int id){
+		Optional<ScheduleInterview> scheduleInterview = scheduleinterviewRepository.findById(id);
+		log.info("Find record by id : " + scheduleInterview);
+		if(scheduleInterview.isEmpty())
 			throw new IntervieweeNotFoundException("Resource " + id + " Not Foud");
-		return user;
+		return scheduleInterview;
 	}
 	
-	//Create New Resource
-	public ResponseEntity<Object> createInterviewee(ScheduleInterview scheduleInterview) {
-		ScheduleInterview save = repository.save(scheduleInterview);
-		log.info("Created Resource : " + save);
-		return new ResponseEntity<Object>(HttpStatus.CREATED);
+	//Create new scheduled interview
+	public void createScheduleInterview(ScheduleInterview scheduleInterview) {
+		ScheduleInterview saveScheduleInterview = scheduleinterviewRepository.save(scheduleInterview);
+		log.info("Created Resource : " + saveScheduleInterview);
 	}
 	
-	//Delete Resource By Id
-	public void deleteById(@PathVariable int id) {
-		Optional<ScheduleInterview> user = repository.findById(id);
-		if(user.isEmpty())
+	//Delete scheduled interview by id
+	public void deleteScheduleInterview(int id) {
+		Optional<ScheduleInterview> scheduleInterview = scheduleinterviewRepository.findById(id);
+		if(scheduleInterview.isEmpty())
 			throw new IntervieweeNotFoundException("Resource " + id + " Not Found");
 		else {
-			log.info("Deleted resource : " + user);
-			repository.deleteById(id);
+			log.info("Deleted resource : " + scheduleInterview);
+			scheduleinterviewRepository.deleteById(id);
 		}
 	}
 	
-	//Update existing resource
-	public ResponseEntity<Object> updateInterviewee(int id, ScheduleInterview scheduleInterview) {
-		Optional<ScheduleInterview> user = repository.findById(id);
-		if(user.isPresent()) {
-			log.info("Updated Resource From : " + user );
-			ScheduleInterview update = repository.save(scheduleInterview);
-			log.info("To : " + update);
-			return new ResponseEntity<Object>(HttpStatus.ACCEPTED);
+	//Update existing scheduled interview
+	public void updateScheduleInterview(int id, ScheduleInterview scheduleInterview) {
+		Optional<ScheduleInterview> oldScheduleInterview = scheduleinterviewRepository.findById(id);
+		if(oldScheduleInterview.isPresent()) {
+			log.info("Updated Resource From : " + oldScheduleInterview );
+			ScheduleInterview updateScheduleInterview = scheduleinterviewRepository.save(scheduleInterview);
+			log.info("To : " + updateScheduleInterview);
 		}
 		else
 			throw new IntervieweeNotFoundException("Resource " + scheduleInterview.getId() + " not fond for updatation");

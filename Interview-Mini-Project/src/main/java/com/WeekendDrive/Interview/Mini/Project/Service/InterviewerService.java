@@ -1,20 +1,18 @@
 package com.WeekendDrive.Interview.Mini.Project.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.WeekendDrive.Interview.Mini.Project.Bean.Interviewer;
+import com.WeekendDrive.Interview.Mini.Project.Bean.ScheduleInterview;
+import com.WeekendDrive.Interview.Mini.Project.Exception.InterviewAlreadyScheduled;
+import com.WeekendDrive.Interview.Mini.Project.Exception.IntervieweeNotFoundException;
 import com.WeekendDrive.Interview.Mini.Project.Exception.InterviewerNotFoundException;
 import com.WeekendDrive.Interview.Mini.Project.Repository.InterviewerRepository;
 
@@ -23,6 +21,9 @@ public class InterviewerService {
 
 	@Autowired
 	private InterviewerRepository interviewerRepository;
+	
+	@Autowired
+	private ScheduleInterviewService scheduleInterviewService;
 	
 	Logger logger = LoggerFactory.getLogger(this.getClass());
 	
@@ -51,12 +52,30 @@ public class InterviewerService {
 	
 	//Delete Resource By Id
 	public void deleteInterviewer( int id) {
-		Optional<Interviewer> interviewer = interviewerRepository.findById(id);
-		if(interviewer.isEmpty())
-			throw new InterviewerNotFoundException("Resource " + id + " Not Found");
+		boolean flag = false;
+		
+		List<ScheduleInterview> scheduleInterview = new ArrayList<>();
+			
+		scheduleInterview = scheduleInterviewService.getAllScheduleInterview();
+		
+		for (ScheduleInterview scheduleInterview2 : scheduleInterview) {
+			if(scheduleInterview2.getInterviewee().getId()==id) {
+				logger.info("Scheduled Interview" + scheduleInterview2.getInterviewee() );
+				flag=true;
+			}
+		}
+		//log.info("Flag : " + flag);
+		if(flag) {
+			throw new InterviewAlreadyScheduled("Sorry you can't delete this interviewee, It's already scheduled");
+		}
 		else {
-			logger.info("Deleted resource : {}" + interviewer);
-			interviewerRepository.deleteById(id);
+			Optional<Interviewer> interviewer = interviewerRepository.findById(id);
+			if(interviewer.isEmpty())
+				throw new IntervieweeNotFoundException("Resource " + id + " Not Found");
+			else {
+				logger.info("Deleted resource : " + interviewer);
+				interviewerRepository.deleteById(id);
+			}
 		}
 	}
 	

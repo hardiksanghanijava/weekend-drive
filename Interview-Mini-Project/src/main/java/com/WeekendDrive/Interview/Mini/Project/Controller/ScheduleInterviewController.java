@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,36 +25,38 @@ import com.WeekendDrive.Interview.Mini.Project.Service.ScheduleInterviewService;
 public class ScheduleInterviewController {
 
 	@Autowired
-	private ScheduleInterviewService service;
+	private ScheduleInterviewService scheduleInterviewService;
 	
 	//Find All Data
 	@GetMapping("/schedule")
-	public List<ScheduleInterview> findAll(){
-		return service.findAll();
+	public List<ScheduleInterview> getAllScheduleInterview(){
+		return scheduleInterviewService.getAllScheduleInterview();
 	}
 	
 	//Find Data By Id
 	@GetMapping("/schedule/{id}")
-	public Optional<ScheduleInterview> findById(@PathVariable int id){
-		return service.findById(id);
+	public Optional<ScheduleInterview> getScheduleInterviewById(@PathVariable int id){
+		return scheduleInterviewService.getScheduleInterviewById(id);
 	}
 		
 	//Create Resource
 	@PostMapping("/add")
-	public ResponseEntity<Object> createInterviewee(@Validated @RequestBody ScheduleInterview scheduleInterview) {
-		return service.createInterviewee(scheduleInterview);
+	public ResponseEntity<Object> createScheduleInterview(@Validated @RequestBody ScheduleInterview scheduleInterview) {
+		scheduleInterviewService.createScheduleInterview(scheduleInterview);
+		return new ResponseEntity<Object>(HttpStatus.CREATED);
 	}
 	
 	//Delete Resource By Id
 	@DeleteMapping("/delete/{id}")
-	public void deleteById(@PathVariable int id) {
-		service.deleteById(id);
+	public void deleteScheduleInterview(@PathVariable int id) {
+		scheduleInterviewService.deleteScheduleInterview(id);
 	}
 	
 	//Update Resource
 	@PutMapping("/update/{id}")
-	public ResponseEntity<Object> updateInterviewee(@Validated @PathVariable int id, @RequestBody ScheduleInterview scheduleInterview) {
-		return service.updateInterviewee(id, scheduleInterview);
+	public ResponseEntity<Object> updateScheduleInterview(@Validated @PathVariable int id, @RequestBody ScheduleInterview scheduleInterview) {
+		scheduleInterviewService.updateScheduleInterview(id, scheduleInterview);
+		return new ResponseEntity<Object>(HttpStatus.ACCEPTED);
 	}
 	
 	
