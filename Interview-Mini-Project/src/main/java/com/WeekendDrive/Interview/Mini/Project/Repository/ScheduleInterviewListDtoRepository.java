@@ -7,7 +7,7 @@ import com.WeekendDrive.Interview.Mini.Project.Bean.ScheduleInterview;
 import com.WeekendDrive.Interview.Mini.Project.Bean.ScheduleInterviewDto;
 
 @Repository
-public interface ScheduleInterviewRepository extends JpaRepository<ScheduleInterview,Integer>{
+public interface ScheduleInterviewListDtoRepository extends JpaRepository<ScheduleInterview,Integer>{
 
 	ScheduleInterviewDto save(ScheduleInterviewDto scheduleInterviewDto);
 

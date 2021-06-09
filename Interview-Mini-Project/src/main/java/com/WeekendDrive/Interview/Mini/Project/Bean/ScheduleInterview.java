@@ -2,9 +2,11 @@ package com.WeekendDrive.Interview.Mini.Project.Bean;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -20,32 +22,31 @@ public class ScheduleInterview {
 
 	@Id
 	private int id;
-	//@Column(name="intervieweeid")
-//	private int intervieweeid;
-//	private int interviewerid;
-//	private int positionid;
-//	private int roundid;
 	private Date time;
 	private String status;
 	private boolean isdeleted;
 	
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY, targetEntity = Interviewee.class, cascade=CascadeType.ALL, optional = false)
+	@JoinColumn(name="interviewee_id", referencedColumnName="id")
+	//@JsonIgnore
 	private Interviewee interviewee;
-	
+
 	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="interviewer_id", referencedColumnName="id")
 	private Interviewer interviewer;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="positions_id", referencedColumnName="id")
 	private Positions positions;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="round_id", referencedColumnName="id")
 	private Round round;
 	
 	
-
 	public Interviewee getInterviewee() {
-		return interviewee;
+		 return interviewee;
 	}
 
 	public Interviewer getInterviewer() {
@@ -68,7 +69,7 @@ public class ScheduleInterview {
 		this.isdeleted = isdeleted;
 	}
 
-	protected ScheduleInterview() {}
+	public ScheduleInterview() {}
 	
 	public ScheduleInterview(int id, Date time, String status) {
 		super();
