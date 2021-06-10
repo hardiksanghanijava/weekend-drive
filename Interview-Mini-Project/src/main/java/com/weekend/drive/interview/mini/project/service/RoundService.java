@@ -1,4 +1,4 @@
-package com.WeekendDrive.Interview.Mini.Project.Service;
+package com.weekend.drive.interview.mini.project.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,9 +9,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.WeekendDrive.Interview.Mini.Project.Bean.Round;
 import com.WeekendDrive.Interview.Mini.Project.Exception.RoundNotFoundException;
-import com.WeekendDrive.Interview.Mini.Project.Repository.RoundRepository;
+import com.weekend.drive.interview.mini.project.bean.Round;
+import com.weekend.drive.interview.mini.project.repository.RoundRepository;
+
+import ccom.weekend.drive.interview.mini.project.request.RoundRequest;
 
 @Service
 public class RoundService {
@@ -42,28 +44,24 @@ public class RoundService {
 	
 	//method to delete the rounds by specific id
 	public void deleteRound( int id){
-		Optional<Round> round = roundRepository.findById(id);
-		if(!round.isPresent()) {
-			throw new RoundNotFoundException("Round not found for id="+id);
-		}else {
+		Optional<Round> round = getRoundById(id);
+		
 		logger.info("Deleted round is{}",round);
 		roundRepository.deleteById(id);
 		
 		}
-	}
+	
 	
  
 	//method to update the rounds by specific id
-	public void updateRound( int id, Round round){
-		Round updatedRound = roundRepository.findById(id).get();
-		if(updatedRound.equals(null)) {
-			throw new RoundNotFoundException("Round not found for id="+id);
+	public void updateRound( int id, RoundRequest roundRequest){
+		Round updatedRound = getRoundById(id).get();
+		
+		if(roundRequest.getName() != null) {
+			updatedRound.setName(roundRequest.getName());
 		}
-		if(round.getName() != null) {
-			updatedRound.setName(round.getName());
-		}
-		if(round.getSequence() != 0)
-		updatedRound.setSequence(round.getSequence());
+		if(roundRequest.getSequence() != 0)
+		updatedRound.setSequence(roundRequest.getSequence());
 		roundRepository.save(updatedRound);
 		logger.info("The updated fields are{}",updatedRound);
 		

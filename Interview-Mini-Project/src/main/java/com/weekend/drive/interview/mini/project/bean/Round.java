@@ -1,4 +1,4 @@
-package com.WeekendDrive.Interview.Mini.Project.Bean;
+package com.weekend.drive.interview.mini.project.bean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.DynamicUpdate;
 
+import com.WeekendDrive.Interview.Mini.Project.Bean.ScheduleInterview;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -29,7 +30,7 @@ public class Round {
 	@OneToMany(mappedBy="round")
 	List<ScheduleInterview> scheduleInterview = new ArrayList<>();
 
-	protected Round() {}
+	public Round() {}
 	
 	
 	

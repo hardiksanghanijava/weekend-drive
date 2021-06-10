@@ -1,4 +1,4 @@
-package com.WeekendDrive.Interview.Mini.Project.Controller;
+package  com.weekend.drive.interview.mini.project.controller;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.WeekendDrive.Interview.Mini.Project.Bean.Round;
-import com.WeekendDrive.Interview.Mini.Project.Service.RoundService;
+import com.weekend.drive.interview.mini.project.bean.Round;
+import com.weekend.drive.interview.mini.project.service.RoundService;
+import com.weekend.drive.response.ApiResponse;
+
+import ccom.weekend.drive.interview.mini.project.request.RoundRequest;
 
 @RestController
 @RequestMapping("/api/round")
@@ -40,16 +43,16 @@ public class RoundController {
 	
 	//method to delete the rounds by specific id	
 	@DeleteMapping("/delete/{id}")
-	public  ResponseEntity<Object> deleteRound(@PathVariable int id){
+	public  ResponseEntity<?> deleteRound(@PathVariable int id){
 		roundService.deleteRound(id);
-		return new ResponseEntity<Object>("Round Deleted Successfully", HttpStatus.ACCEPTED);
+		return new ResponseEntity<>(new ApiResponse(id,"The Round was  successfully deleted at id:") ,HttpStatus.ACCEPTED);
 	}
 	
 	//method to update the rounds by specific id
     @PutMapping("/update/{id}")
-	public  ResponseEntity<Object> updateRound(@Valid @PathVariable int id, @RequestBody Round round){
-		roundService.updateRound(id, round);
-		return new ResponseEntity<Object>("Round Updated Successfully", HttpStatus.ACCEPTED);
+	public  ResponseEntity<?> updateRound(@Valid @PathVariable int id, @RequestBody RoundRequest roundRequest){
+		roundService.updateRound(id, roundRequest);
+		return new ResponseEntity<>(new ApiResponse(id,"The Round was updated successfully at id:") , HttpStatus.ACCEPTED);
 		
 	}
 	
