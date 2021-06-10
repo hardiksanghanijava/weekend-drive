@@ -1,5 +1,6 @@
 package com.WeekendDrive.Interview.Mini.Project.Service;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +14,7 @@ import com.WeekendDrive.Interview.Mini.Project.Bean.ScheduleInterview;
 import com.WeekendDrive.Interview.Mini.Project.Exception.InterviewAlreadyScheduled;
 import com.WeekendDrive.Interview.Mini.Project.Exception.IntervieweeNotFoundException;
 import com.WeekendDrive.Interview.Mini.Project.Repository.IntervieweeRepository;
+import com.weekend.drive.request.IntervieweeRequest;
 
 @Service
 public class IntervieweeService {
@@ -42,9 +44,10 @@ public class IntervieweeService {
 	}
 	
 	//Create new interviewee
-	public void createInterviewee(Interviewee interviewee) {
-		Interviewee saveInterviewee = intervieweeRepository.save(interviewee);
-		log.info("Created Resource : " + saveInterviewee);
+	public Interviewee createInterviewee(IntervieweeRequest intervieweeRequest) throws IllegalAccessException, InvocationTargetException {
+		Interviewee interviewee = intervieweeRepository.save(IntervieweeRequest.toIntervieweeRequestEnttity(intervieweeRequest));
+		log.info("Created Resource : " + interviewee);
+		return interviewee;
 	}
 	
 	//Delete interviewee by id

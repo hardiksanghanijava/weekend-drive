@@ -1,5 +1,6 @@
 package com.WeekendDrive.Interview.Mini.Project.Controller;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.WeekendDrive.Interview.Mini.Project.Bean.Interviewee;
 import com.WeekendDrive.Interview.Mini.Project.Service.IntervieweeService;
-
+import com.weekend.drive.request.IntervieweeRequest;
+import com.weekend.drive.response.ApiResponse;
 
 @RestController
 @RequestMapping("/api/interviewee")
@@ -26,41 +28,39 @@ public class IntervieweeController {
 
 	@Autowired
 	private IntervieweeService intervieweeService;
-	
-	//Find All Data
+
+	// Find All Data
 	@GetMapping("/list")
-	public List<Interviewee> getAllInterviewee(){
+	public List<Interviewee> getAllInterviewee() {
 		return intervieweeService.getAllInterviewee();
 	}
-	
-	//Find Data By Id
+
+	// Find Data By Id
 	@GetMapping("/view/{id}")
-	public Optional<Interviewee> getIntervieweeById(@PathVariable int id){
+	public Optional<Interviewee> getIntervieweeById(@PathVariable int id) {
 		return intervieweeService.getIntervieweeById(id);
 	}
-	
-	//Create Resource
+
+	// Create Resource
 	@PostMapping("/add")
-	public ResponseEntity<Object> createInterviewee(@Validated @RequestBody Interviewee interviewee) {
-		intervieweeService.createInterviewee(interviewee);
-		return new ResponseEntity<Object>("Interviewee Created Successfully",HttpStatus.CREATED);
+	public ResponseEntity<?> createInterviewee(@Validated @RequestBody IntervieweeRequest intervieweeRequest)
+			throws IllegalAccessException, InvocationTargetException {
+		return new ResponseEntity<>(new ApiResponse(intervieweeService.createInterviewee(intervieweeRequest).getId(),
+				"Interviewee Created Successfully at this :"), HttpStatus.CREATED);
 	}
-	
-	//Delete Resource By Id
+
+	// Delete Resource By Id
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<Object> deleteInterviewee(@PathVariable int id) {
 		intervieweeService.deleteInterviewee(id);
-		return new ResponseEntity<Object>("Interviewee Deleted Successfully",HttpStatus.ACCEPTED);
+		return new ResponseEntity<Object>("Interviewee Deleted Successfully", HttpStatus.ACCEPTED);
 	}
-	
-	//Update Resource
+
+	// Update Resource
 	@PutMapping("/update")
 	public ResponseEntity<Object> updateInterviewee(@Validated @RequestBody Interviewee interviewee) {
 		intervieweeService.updateInterviewee(interviewee);
-		return new ResponseEntity<Object>("Interviewee Updated Successfully",HttpStatus.ACCEPTED);
+		return new ResponseEntity<Object>("Interviewee Updated Successfully", HttpStatus.ACCEPTED);
 	}
-	
-	
-	
-	
+
 }
