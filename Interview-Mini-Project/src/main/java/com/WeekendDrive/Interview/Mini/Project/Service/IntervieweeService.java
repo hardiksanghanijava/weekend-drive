@@ -1,6 +1,5 @@
 package com.WeekendDrive.Interview.Mini.Project.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +37,7 @@ public class IntervieweeService {
 		Optional<Interviewee> interviewee = intervieweeRepository.findById(id);
 		log.info("Find record by id : " + interviewee);
 		if(interviewee.isEmpty())
-			throw new IntervieweeNotFoundException("Resource " + id + " Not Foud");
+			throw new IntervieweeNotFoundException("Interviewee " + id + " Not Foud");
 		return interviewee;
 	}
 	
@@ -50,31 +49,18 @@ public class IntervieweeService {
 	
 	//Delete interviewee by id
 	public void deleteInterviewee(int id) {
-		boolean flag = false;
+		//Fetch interviewee if exist
+		getIntervieweeById(id);
 		
-		List<ScheduleInterview> scheduleInterview = new ArrayList<>();
-			
-		scheduleInterview = scheduleInterviewService.getAllScheduleInterview();
+		List<ScheduleInterview> scheduleInterview = scheduleInterviewService.getAllScheduleInterview();
 		
-		for (ScheduleInterview scheduleInterview2 : scheduleInterview) {
-			if(scheduleInterview2.getInterviewee().getId()==id) {
-				log.info("Scheduled Interview" + scheduleInterview2.getInterviewee() );
-				flag=true;
-			}
-		}
-		//log.info("Flag : " + flag);
-		if(flag) {
+		//Stream api loop
+		scheduleInterview.stream().forEach(scheduleInterview2 -> 
+		{if(scheduleInterview2.getInterviewee().getId()==id) {
 			throw new InterviewAlreadyScheduled("Sorry you can't delete this interviewee, It's already scheduled");
-		}
-		else {
-			Optional<Interviewee> interviewee = intervieweeRepository.findById(id);
-			if(interviewee.isEmpty())
-				throw new IntervieweeNotFoundException("Resource " + id + " Not Found");
-			else {
-				log.info("Deleted resource : " + interviewee);
-				intervieweeRepository.deleteById(id);
-			}
-		}
+		}}); 
+		
+		intervieweeRepository.deleteById(id);
 	}
 	
 	//Update existing interviewee

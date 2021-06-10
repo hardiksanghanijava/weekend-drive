@@ -7,10 +7,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 
 import com.WeekendDrive.Interview.Mini.Project.Bean.Round;
 import com.WeekendDrive.Interview.Mini.Project.Exception.RoundNotFoundException;
@@ -37,7 +34,7 @@ public class RoundService {
 	
 		Optional<Round> round = roundRepository.findById(id);
 		if(!round.isPresent()) {
-			throw new RoundNotFoundException("Round not found for id="+id);
+			throw new RoundNotFoundException("Round : " + id + " not found");
 		}
 		logger.info("The method retreived by id {} is {}",id,round);
 		return round;

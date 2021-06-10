@@ -1,4 +1,4 @@
-package com.example.demo.bean;
+package com.WeekendDrive.Interview.Mini.Project.Controller;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.WeekendDrive.Interview.Mini.Project.Bean.Positions;
+import com.WeekendDrive.Interview.Mini.Project.Service.PositionService;
 
 
 @RestController

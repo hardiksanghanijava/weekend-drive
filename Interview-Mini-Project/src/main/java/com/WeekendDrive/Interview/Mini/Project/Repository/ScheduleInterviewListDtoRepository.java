@@ -1,14 +1,15 @@
 package com.WeekendDrive.Interview.Mini.Project.Repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import com.WeekendDrive.Interview.Mini.Project.Bean.ScheduleInterview;
 import com.WeekendDrive.Interview.Mini.Project.Bean.ScheduleInterviewDto;
+import com.WeekendDrive.Interview.Mini.Project.Bean.ScheduleInterviewListDto;
 
-@Repository
-public interface ScheduleInterviewListDtoRepository extends JpaRepository<ScheduleInterview,Integer>{
+@EnableJpaRepositories
+public interface ScheduleInterviewListDtoRepository extends JpaRepository<ScheduleInterviewListDto, Integer>{
 
 	ScheduleInterviewDto save(ScheduleInterviewDto scheduleInterviewDto);
+
 
 }

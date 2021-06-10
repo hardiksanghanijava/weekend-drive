@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 public class PositionsNotFoundException extends RuntimeException {
 	public PositionsNotFoundException(String message) {
-
-}
+		super(message);
+	}
 }

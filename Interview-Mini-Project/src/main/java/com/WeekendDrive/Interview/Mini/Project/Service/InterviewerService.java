@@ -1,6 +1,5 @@
 package com.WeekendDrive.Interview.Mini.Project.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.WeekendDrive.Interview.Mini.Project.Bean.Interviewer;
 import com.WeekendDrive.Interview.Mini.Project.Bean.ScheduleInterview;
 import com.WeekendDrive.Interview.Mini.Project.Exception.InterviewAlreadyScheduled;
-import com.WeekendDrive.Interview.Mini.Project.Exception.IntervieweeNotFoundException;
 import com.WeekendDrive.Interview.Mini.Project.Exception.InterviewerNotFoundException;
 import com.WeekendDrive.Interview.Mini.Project.Repository.InterviewerRepository;
 
@@ -39,7 +37,7 @@ public class InterviewerService {
 		Optional<Interviewer> interviewer = interviewerRepository.findById(id);
 		logger.info("record by id : {}" + interviewer);
 		if(interviewer.isEmpty())
-			throw new InterviewerNotFoundException("Resource " + id + " Not Found");
+			throw new InterviewerNotFoundException("Interviewer " + id + " Not Found");
 		return interviewer;
 	}
 	
@@ -52,31 +50,18 @@ public class InterviewerService {
 	
 	//Delete Resource By Id
 	public void deleteInterviewer( int id) {
-		boolean flag = false;
-		
-		List<ScheduleInterview> scheduleInterview = new ArrayList<>();
-			
-		scheduleInterview = scheduleInterviewService.getAllScheduleInterview();
-		
-		for (ScheduleInterview scheduleInterview2 : scheduleInterview) {
-			if(scheduleInterview2.getInterviewee().getId()==id) {
-				logger.info("Scheduled Interview" + scheduleInterview2.getInterviewee() );
-				flag=true;
-			}
-		}
-		//log.info("Flag : " + flag);
-		if(flag) {
-			throw new InterviewAlreadyScheduled("Sorry you can't delete this interviewee, It's already scheduled");
-		}
-		else {
-			Optional<Interviewer> interviewer = interviewerRepository.findById(id);
-			if(interviewer.isEmpty())
-				throw new IntervieweeNotFoundException("Resource " + id + " Not Found");
-			else {
-				logger.info("Deleted resource : " + interviewer);
+		//Fetch interviewee if exist
+				getInterviewerById(id);
+				
+				List<ScheduleInterview> scheduleInterview = scheduleInterviewService.getAllScheduleInterview();
+				
+				//Stream api loop
+				scheduleInterview.stream().forEach(scheduleInterview2 -> 
+				{if(scheduleInterview2.getInterviewee().getId()==id) {
+					throw new InterviewAlreadyScheduled("Sorry you can't delete this interviewee, It's already scheduled");
+				}}); 
+				
 				interviewerRepository.deleteById(id);
-			}
-		}
 	}
 	
 	//Update existing resource

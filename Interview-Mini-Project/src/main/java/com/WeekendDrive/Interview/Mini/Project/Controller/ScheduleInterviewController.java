@@ -1,5 +1,6 @@
 package com.WeekendDrive.Interview.Mini.Project.Controller;
 
+
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +21,7 @@ import com.WeekendDrive.Interview.Mini.Project.Bean.ScheduleInterview;
 import com.WeekendDrive.Interview.Mini.Project.Bean.ScheduleInterviewDto;
 import com.WeekendDrive.Interview.Mini.Project.Bean.ScheduleInterviewListDto;
 import com.WeekendDrive.Interview.Mini.Project.Repository.ScheduleInterviewListDtoRepository;
+import com.WeekendDrive.Interview.Mini.Project.Repository.ScheduleInterviewRepository;
 import com.WeekendDrive.Interview.Mini.Project.Service.ScheduleInterviewService;
 
 
@@ -33,6 +35,9 @@ public class ScheduleInterviewController {
 	
 	@Autowired
 	private ScheduleInterviewListDtoRepository scheduleInterviewListDtoRepository;
+	
+	@Autowired
+	ScheduleInterviewRepository scheduleInterviewRepository;
 	
 	//Find All Data
 	@GetMapping("/schedule")
@@ -49,12 +54,6 @@ public class ScheduleInterviewController {
 	//Get Scheduled List
 	@GetMapping("/schedule/list")
 	public List<ScheduleInterviewListDto> getScheduledList(){
-		
-//		PageRequest pageRequest = PageRequest.of(0, 2);
-//		Page<ScheduleInterviewListDto> firstPage = scheduleInterviewListDtoRepository.findAll(pageRequest);
-//		
-//		Pageable secondPageable = firstPage.nextPageable();
-//		Page<ScheduleInterviewListDto> secondPage = scheduleInterviewListDtoRepository.findAll(secondPageable);
 		return scheduleInterviewService.getScheduledList();
 	}
 	
@@ -62,35 +61,35 @@ public class ScheduleInterviewController {
 	@PostMapping("/add")
 	public ResponseEntity<Object> createScheduleInterview(@Validated @RequestBody ScheduleInterviewDto scheduleInterview) {
 		scheduleInterviewService.createScheduleInterview(scheduleInterview);
-		return new ResponseEntity<Object>(HttpStatus.CREATED);
+		return new ResponseEntity<Object>("Interview Scheduled Successfully", HttpStatus.CREATED);
 	}
 	
 	//Reschedule Status
 	@PutMapping("/reschedule/{id}")
 	public ResponseEntity<Object> rescheduleStatus(@PathVariable int id){
 		scheduleInterviewService.rescheduleStatus(id);
-		return new ResponseEntity<Object>(HttpStatus.ACCEPTED);
+		return new ResponseEntity<Object>("Interview Rescheduled Successfully", HttpStatus.ACCEPTED);
 	}
 	
 	//Change Status
 	@PutMapping("/{id}/status")
 	public ResponseEntity<Object> setScheduleInterviewStatus(@PathVariable int id, @RequestBody String status){
 		scheduleInterviewService.setScheduleInterviewStatus(id, status);
-		return new ResponseEntity<Object>(HttpStatus.ACCEPTED);
+		return new ResponseEntity<Object>("Status Updated to " + status + " Successfully", HttpStatus.ACCEPTED);
 	}	
 	
 	//Delete Resource By Id
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<Object> deleteScheduleInterview(@PathVariable int id) {
 		scheduleInterviewService.deleteScheduleInterview(id);
-		return new ResponseEntity<Object>(HttpStatus.ACCEPTED);
+		return new ResponseEntity<Object>("Interview Deleted Successfully", HttpStatus.ACCEPTED);
 	}
 	
 	//Update Resource
 	@PutMapping("/update/{id}")
 	public ResponseEntity<Object> updateScheduleInterview(@Validated @PathVariable int id, @RequestBody ScheduleInterviewDto scheduleInterviewdto) {
 		scheduleInterviewService.updateScheduleInterviewDto(id, scheduleInterviewdto);
-		return new ResponseEntity<Object>(HttpStatus.ACCEPTED);
+		return new ResponseEntity<Object>("Interview Updated Successfully", HttpStatus.ACCEPTED);
 	}
 	
 	

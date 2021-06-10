@@ -1,4 +1,4 @@
-package com.example.demo.bean;
+package com.WeekendDrive.Interview.Mini.Project.Service;
 
 
 import java.util.List;
@@ -8,6 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.WeekendDrive.Interview.Mini.Project.Bean.Positions;
+import com.WeekendDrive.Interview.Mini.Project.Exception.PositionsNotFoundException;
+import com.WeekendDrive.Interview.Mini.Project.Repository.PositionsRepository;
 
 @Service
 public class PositionService {
@@ -28,7 +32,7 @@ public class PositionService {
 	public Optional<Positions> getPositionById(int id){
 		Optional<Positions> positions = positionRepository.findById(id);
 		if(positions.isEmpty())
-			throw new PositionsNotFoundException("Id : " + id);
+			throw new PositionsNotFoundException("Position : " + id + " not found");
 		logger.info("Get Position By Id: ",positions);
 		return positions;
 	}

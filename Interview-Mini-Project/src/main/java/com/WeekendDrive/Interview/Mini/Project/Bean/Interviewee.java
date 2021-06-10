@@ -1,5 +1,6 @@
 package com.WeekendDrive.Interview.Mini.Project.Bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -31,7 +32,7 @@ public class Interviewee {
 	private String qualification;
 	
 	@OneToMany(mappedBy="interviewee",fetch=FetchType.LAZY)
-	private List<ScheduleInterview> scheduleInterview; //= new ArrayList<>();
+	private List<ScheduleInterview> scheduleInterview = new ArrayList<>();
 	
 	public Interviewee(){}
 	
