@@ -57,6 +57,12 @@ public class ScheduleInterviewController {
 		return scheduleInterviewService.getScheduledList();
 	}
 	
+	//Get Scheduled List In Pagination
+	@GetMapping("/schedule/list/{page}")
+	public List<ScheduleInterviewListDto> getScheduledListPagination(@PathVariable int page){
+		return scheduleInterviewService.getScheduledListPagination(page);
+	}
+		
 	//Create Resource
 	@PostMapping("/add")
 	public ResponseEntity<Object> createScheduleInterview(@Validated @RequestBody ScheduleInterviewDto scheduleInterview) {
@@ -91,8 +97,5 @@ public class ScheduleInterviewController {
 		scheduleInterviewService.updateScheduleInterviewDto(id, scheduleInterviewdto);
 		return new ResponseEntity<Object>("Interview Updated Successfully", HttpStatus.ACCEPTED);
 	}
-	
-	
-	
 	
 }

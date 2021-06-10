@@ -43,20 +43,21 @@ public class IntervieweeController {
 	@PostMapping("/add")
 	public ResponseEntity<Object> createInterviewee(@Validated @RequestBody Interviewee interviewee) {
 		intervieweeService.createInterviewee(interviewee);
-		return new ResponseEntity<Object>(HttpStatus.CREATED);
+		return new ResponseEntity<Object>("Interviewee Created Successfully",HttpStatus.CREATED);
 	}
 	
 	//Delete Resource By Id
 	@DeleteMapping("/delete/{id}")
-	public void deleteInterviewee(@PathVariable int id) {
+	public ResponseEntity<Object> deleteInterviewee(@PathVariable int id) {
 		intervieweeService.deleteInterviewee(id);
+		return new ResponseEntity<Object>("Interviewee Deleted Successfully",HttpStatus.ACCEPTED);
 	}
 	
 	//Update Resource
 	@PutMapping("/update")
 	public ResponseEntity<Object> updateInterviewee(@Validated @RequestBody Interviewee interviewee) {
 		intervieweeService.updateInterviewee(interviewee);
-		return new ResponseEntity<Object>(HttpStatus.ACCEPTED);
+		return new ResponseEntity<Object>("Interviewee Updated Successfully",HttpStatus.ACCEPTED);
 	}
 	
 	

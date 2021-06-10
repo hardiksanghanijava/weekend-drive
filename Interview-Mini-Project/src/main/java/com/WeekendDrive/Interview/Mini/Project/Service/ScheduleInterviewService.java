@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +43,9 @@ public class ScheduleInterviewService {
 	
 	@Autowired
 	private RoundService roundService;
+	
+	@Autowired
+	private EntityManager entityManager;
 	
 
 	public List<ScheduleInterview> getAllScheduleInterview(){
@@ -156,30 +160,34 @@ public class ScheduleInterviewService {
 	}
 	
 	
-	@Autowired
-	EntityManager em;
+	//Retrieve Scheduled Interview List
+		public List<ScheduleInterviewListDto> getScheduledListPagination(int page){
+			int elementsPerPage = 3;
+			
+			String sqlQuery = "select scheduled_interview.id,interviewee.name as intervieweename,interviewer.name as interviewername,round.name as roundname,scheduled_interview.time,scheduled_interview.status from scheduled_interview inner join interviewee on scheduled_interview.interviewee_id=interviewee.id\r\n"
+					+ " join interviewer on scheduled_interview.interviewer_id=interviewer.id inner join round on scheduled_interview.round_id=round.id";
+			
+			Query query = entityManager.createNativeQuery(sqlQuery);
+			List<ScheduleInterviewListDto> resultList = query.getResultList();
 	
-//	//Retrieve Scheduled Interview List
-//		public List<ScheduleInterviewListDto> getScheduledListPagination(){
-//			List<ScheduleInterviewListDto> listDto = new ArrayList<>();
-//			List<ScheduleInterview> scheduleInterview =  scheduleinterviewRepository.findAll();
-//			for (ScheduleInterview list : scheduleInterview) {
-//				listDto.add(new ScheduleInterviewListDto(list.getId(), list.getInterviewee().getName(),
-//						list.getInterviewer().getName(), list.getRound().getName(), list.getTime(), 
-//						list.getStatus()));
-//			}	
-////			
-////			Query query = em.createNativeQuery("select si.id,ie.name,iw.name,r.name,si.time,si.status from scheduled_interview as si join interviewee as ie on si.interviewee_id=ie.id\r\n"
-////					+ " join interviewer as iw on si.interviewer_id=iw.id join round as r on si.round_id=r.id", ScheduleInterview.class);
-////			
-//			javax.persistence.TypedQuery<Object[]> query = em.createQuery("select si.id,ie.name,iw.name,r.name,si.time,si.status from ScheduleInterview si join Interviewee ie on si.interviewee_id=ie.id join Interviewer iw on si.interviewer_id=iw.id join Round r on si.round_id=r.id", Object[].class);
-// 			List resultList = query.getResultList();
-// 			
-// 			log.info("Result list : " + resultList);
-// 			
-//			return listDto;
-//		}
-//	
+			int sizeOfList = resultList.size();
+			int maxPage = sizeOfList/elementsPerPage;
+			
+			if(sizeOfList%elementsPerPage==0) {
+				if(page>maxPage)
+					throw new IntervieweeNotFoundException("Page limit exceeded");
+			}
+			else{
+			    if(page>maxPage+1)
+			        throw new IntervieweeNotFoundException("Page limit exceeded");
+			}
+			
+			List<ScheduleInterviewListDto> finalList = query.setFirstResult(elementsPerPage * (page-1)).setMaxResults(elementsPerPage).getResultList();	
+			
+ 			log.info("Result list : " + finalList);
+			return finalList;
+		}
+	
 	
 	
 }

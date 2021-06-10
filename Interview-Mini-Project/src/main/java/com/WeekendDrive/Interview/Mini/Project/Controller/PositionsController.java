@@ -46,7 +46,7 @@ public class PositionsController
 	public ResponseEntity<Object> deletePosition(@PathVariable("id") int id)
 	{
 		positionService.deletePosition(id);
-		return new ResponseEntity<Object>(HttpStatus.ACCEPTED);
+		return new ResponseEntity<Object>("Position Deleted Successfully", HttpStatus.ACCEPTED);
 	}
 	
 	// Create Data
@@ -54,7 +54,7 @@ public class PositionsController
 	public ResponseEntity<Object> createPosition(@Validated @RequestBody Positions positions)
 	{
 		 positionService.createPosition(positions);
-		 return new ResponseEntity<Object>(HttpStatus.ALREADY_REPORTED);
+		 return new ResponseEntity<Object>("Position Created Successfully",HttpStatus.CREATED);
 		
 	}
 	
@@ -63,7 +63,7 @@ public class PositionsController
 	public ResponseEntity<Object> updatePositions(@Validated @RequestBody Positions positions)
 	{
 		positionService.updatePosition(positions);
-	    return new ResponseEntity<Object>(HttpStatus.ACCEPTED);	
+	    return new ResponseEntity<Object>("Position Updated Successfully", HttpStatus.ACCEPTED);	
 	}
 		
 }
