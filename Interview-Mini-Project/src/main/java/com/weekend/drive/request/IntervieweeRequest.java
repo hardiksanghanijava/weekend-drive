@@ -4,7 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.beanutils.BeanUtils;
 
-import com.WeekendDrive.Interview.Mini.Project.Bean.Interviewee;
+import com.weekend.drive.interview.mini.project.bean.Interviewee;
 
 public class IntervieweeRequest {
 

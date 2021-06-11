@@ -1,5 +1,6 @@
 package com.weekend.drive.interview.mini.project.bean;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,10 +9,13 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.hibernate.annotations.DynamicUpdate;
 
-import com.WeekendDrive.Interview.Mini.Project.Bean.ScheduleInterview;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.weekend.drive.interview.mini.project.response.RoundResponse;
+
+
 
 @Entity
 @DynamicUpdate
@@ -38,7 +42,7 @@ public class Round {
 	public String toString() {
 		return "Round [id=" + id + ", name=" + name + ", sequence=" + sequence + "]";
 	}
-
+	
 
 
 	public Round(int id, String name, int sequence) {
@@ -90,7 +94,11 @@ public class Round {
 		this.scheduleInterview .remove(scheduleInterview);
 	}
 	
-	
+	public RoundResponse toRoundEntityResponse(Round round) throws IllegalAccessException, InvocationTargetException {
+		RoundResponse roundResponse = new RoundResponse();
+		BeanUtils.copyProperties(roundResponse, round);
+		return roundResponse;
 
 
+}
 }
