@@ -32,7 +32,7 @@ public class PositionsController
 	@GetMapping("/list")
 	public ResponseEntity<?> getAllPositions()
 	{
-		return new ResponseEntity<>(new ApiResponse(positionServiceImpl.getAllPositions(),
+		return new ResponseEntity<>(new ApiResponse<>(positionServiceImpl.getAllPositions(),
 				"Get All Position Successfully :"), HttpStatus.ACCEPTED);
 	}
 	
@@ -40,7 +40,7 @@ public class PositionsController
 	@GetMapping("/view/{id}")
 	public ResponseEntity<?> getPositionById(@PathVariable("id") int id)
 	{
-		return new ResponseEntity<>(new ApiResponse(positionServiceImpl.getPositionById(id),
+		return new ResponseEntity<>(new ApiResponse<>(positionServiceImpl.getPositionById(id),
 				"Get Position Successfully at this :"), HttpStatus.ACCEPTED);
 	}
 	
@@ -49,7 +49,7 @@ public class PositionsController
 	public ResponseEntity<?> deletePosition(@PathVariable("id") int id)
 	{
 		positionServiceImpl.deletePosition(id);
-		return new ResponseEntity<>(new ApiResponse(positionServiceImpl.deletePosition(id),
+		return new ResponseEntity<>(new ApiResponse<>(positionServiceImpl.deletePosition(id),
 				"Delete Position Successfully at this :"), HttpStatus.ACCEPTED);
 	}
 	
@@ -57,7 +57,7 @@ public class PositionsController
 	@PostMapping("/add")
 	public ResponseEntity<?> createPosition(@Validated @RequestBody PositionsRequest positionsRequest)
 			throws IllegalAccessException, InvocationTargetException {
-		return new ResponseEntity<>(new ApiResponse(positionServiceImpl.createPosition(positionsRequest).getId(),
+		return new ResponseEntity<>(new ApiResponse<>(positionServiceImpl.createPosition(positionsRequest).getId(),
 				"Position Created Successfully at this :"), HttpStatus.CREATED);
 	}
 
@@ -66,7 +66,7 @@ public class PositionsController
 	@PutMapping("/update")
 	public ResponseEntity<?> updatePositions(@Validated @RequestBody PositionsUpdateRequest positionsUpdateRequest)throws IllegalAccessException, InvocationTargetException
 	{
-		return new ResponseEntity<>(new ApiResponse(positionServiceImpl.updatePosition(positionsUpdateRequest).getId(),
+		return new ResponseEntity<>(new ApiResponse<>(positionServiceImpl.updatePosition(positionsUpdateRequest).getId(),
 				"Position Updated Successfully at this :"), HttpStatus.ACCEPTED);
 	}
 		

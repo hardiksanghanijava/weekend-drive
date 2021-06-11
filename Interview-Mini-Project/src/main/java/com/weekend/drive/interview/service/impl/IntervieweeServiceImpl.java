@@ -18,7 +18,7 @@ import com.weekend.drive.interview.request.IntervieweeCreateRequest;
 import com.weekend.drive.interview.request.IntervieweeUpdateRequest;
 import com.weekend.drive.interview.response.IntervieweeResponse;
 import com.weekend.drive.interview.service.IntervieweeService;
-import com.weekend.drive.interview.service.ScheduleInterviewService;
+
 
 @Service
 public class IntervieweeServiceImpl implements IntervieweeService{

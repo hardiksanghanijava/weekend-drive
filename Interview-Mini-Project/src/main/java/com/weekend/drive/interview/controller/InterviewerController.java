@@ -1,8 +1,7 @@
 package  com.weekend.drive.interview.controller;
 
 
-import java.util.List;
-import java.util.Optional;
+import java.lang.reflect.InvocationTargetException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.weekend.drive.interview.bean.Interviewer;
-import com.weekend.drive.interview.service.impl.InterviewerService;
+import com.weekend.drive.interview.request.InterviewerCreateRequest;
+import com.weekend.drive.interview.request.InterviewerUpdateRequest;
+import com.weekend.drive.interview.response.ApiResponse;
+import com.weekend.drive.interview.service.impl.InterviewerServiceImpl;
 
 
 @RestController
@@ -26,42 +27,43 @@ import com.weekend.drive.interview.service.impl.InterviewerService;
 public class InterviewerController {
 
 	@Autowired
-	private InterviewerService interviewerService;
+	private InterviewerServiceImpl interviewerServiceImpl;
 	
-	//retrieve All Data
+	// Find All Data
 	@GetMapping("/list")
-	public List<Interviewer> getAllInterviewer(){
-		return interviewerService.getAllInterviewers();
+	public ResponseEntity<?> getAllInterviewer() {
+		return new ResponseEntity<>(new ApiResponse<>(interviewerServiceImpl.getAllInterviewer(),
+				"All Interviewers"), HttpStatus.OK);	
 	}
 	
-	//Find Data By Id
+	// Find Data By Id
 	@GetMapping("/view/{id}")
-	public Optional<Interviewer> getInterviewerById(@PathVariable int id){
-		return interviewerService.getInterviewerById(id);
-	}
+	public ResponseEntity<?> getInterviewerById(@PathVariable int id) throws IllegalAccessException, InvocationTargetException {
+		return new ResponseEntity<>(new ApiResponse<>(interviewerServiceImpl.getInterviewerById(id),
+					"Interviewer Presente at this id " + id), HttpStatus.OK);
+		}
 	
-	//Create Resource
+	// Create Resource
 	@PostMapping("/add")
-	public ResponseEntity<Object> createInterviewer(@Validated @RequestBody Interviewer interviewer) {
-		interviewerService.createInterviewer(interviewer);
-		return new ResponseEntity<Object>("Interviewer Created Successfully", HttpStatus.ACCEPTED);
+	public ResponseEntity<?> createInterviewer(@Validated @RequestBody InterviewerCreateRequest interviewerCreateRequest)
+			throws IllegalAccessException, InvocationTargetException {
+		return new ResponseEntity<>(new ApiResponse<>(interviewerServiceImpl.createInterviewer(interviewerCreateRequest).getId(),
+				"Interviewer Created Successfully"), HttpStatus.CREATED);
 	}
+
 	
-	//Delete Resource By Id
+	// Delete Resource By Id
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<Object> deleteById(@PathVariable int id) {
-		interviewerService.deleteInterviewer(id);
-		return new ResponseEntity<Object>("Interviewer Deleted Successfully", HttpStatus.ACCEPTED);
+	public ResponseEntity<?> deleteInterviewer(@PathVariable int id) throws IllegalAccessException, InvocationTargetException {
+		interviewerServiceImpl.deleteInterviewer(id);
+		return new ResponseEntity<>(new ApiResponse<>(id,
+				"Interviewer Delete Successfully"), HttpStatus.ACCEPTED);
 	}
 	
 	//Update Resource
 	@PutMapping("/update")
-	public ResponseEntity<Object> updateInterviewer(@Validated @RequestBody Interviewer interviewer) {
-		interviewerService.updateInterviewer(interviewer);
-		return new ResponseEntity<Object>("Interviewer Updated Successfully", HttpStatus.ACCEPTED);
+	public ResponseEntity<?> updateInterviewer(@Validated @RequestBody InterviewerUpdateRequest interviewerUpdateRequest) throws IllegalAccessException, InvocationTargetException {
+		return new ResponseEntity<>(new ApiResponse<>(interviewerServiceImpl.updateInterviewer(interviewerUpdateRequest).getId(), 
+				"Interviewer Updated Successfully"), HttpStatus.ACCEPTED);
 	}
-	
-	
-	
-	
 }

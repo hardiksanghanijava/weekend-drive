@@ -38,7 +38,7 @@ public class ScheduleInterviewService {
 	private IntervieweeService intervieweeService;
 	
 	@Autowired
-	private InterviewerService interviewerService;
+	private InterviewerServiceImpl interviewerService;
 	
 	@Autowired
 	private PositionService positionsService;

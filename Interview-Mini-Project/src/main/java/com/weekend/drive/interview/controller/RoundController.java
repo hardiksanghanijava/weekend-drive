@@ -33,27 +33,27 @@ public class RoundController {
 	//method to retrieve all the rounds	
 	@GetMapping("/list")
 	public ResponseEntity<?> getAllRounds(){
-		return new ResponseEntity<>(new ApiResponse(roundService.getAllRounds(),"All the Rounds :") ,HttpStatus.ACCEPTED);
+		return new ResponseEntity<>(new ApiResponse<>(roundService.getAllRounds(),"All the Rounds :") ,HttpStatus.ACCEPTED);
 	}
 	
 	//method to retrieve the rounds by specific id	
 	@GetMapping("/view/{id}")
 	public ResponseEntity<?> getRoundById(@PathVariable int id) throws IllegalAccessException, InvocationTargetException{
-		return new ResponseEntity<>(new ApiResponse(roundService.getRoundById(id),"The Round present at this id :") ,HttpStatus.ACCEPTED);
+		return new ResponseEntity<>(new ApiResponse<>(roundService.getRoundById(id),"The Round present at this id :") ,HttpStatus.ACCEPTED);
 	}
 	
 	//method to delete the rounds by specific id	
 	@DeleteMapping("/delete/{id}")
 	public  ResponseEntity<?> deleteRound(@PathVariable int id) throws IllegalAccessException, InvocationTargetException{
 		roundService.deleteRound(id);
-		return new ResponseEntity<>(new ApiResponse(id,"The Round was  successfully deleted at id:") ,HttpStatus.ACCEPTED);
+		return new ResponseEntity<>(new ApiResponse<>(id,"The Round was  successfully deleted at id:") ,HttpStatus.ACCEPTED);
 	}
 	
 	//method to update the rounds by specific id
     @PutMapping("/update/{id}")
 	public  ResponseEntity<?> updateRound(@Valid @PathVariable int id, @RequestBody RoundUpdateRequest roundRequest) throws IllegalAccessException, InvocationTargetException{
 		roundService.updateRound(id, roundRequest);
-		return new ResponseEntity<>(new ApiResponse(id,"The Round was updated successfully at id:") , HttpStatus.ACCEPTED);
+		return new ResponseEntity<>(new ApiResponse<>(id,"The Round was updated successfully at id:") , HttpStatus.ACCEPTED);
 		
 	}
 	
