@@ -1,8 +1,6 @@
-package  com.weekend.drive.interview.controller;
+package com.weekend.drive.interview.controller;
 
-
-import java.util.List;
-import java.util.Optional;
+import java.lang.reflect.InvocationTargetException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.weekend.drive.interview.bean.Positions;
-import com.weekend.drive.interview.service.impl.PositionService;
+import com.weekend.drive.interview.request.PositionsRequest;
+import com.weekend.drive.interview.request.PositionsUpdateRequest;
+import com.weekend.drive.interview.response.ApiResponse;
+import com.weekend.drive.interview.service.impl.PositionServiceImpl;
 
 
 @RestController
@@ -26,45 +26,48 @@ import com.weekend.drive.interview.service.impl.PositionService;
 public class PositionsController
 {
 	@Autowired
-	PositionService positionService;
+	PositionServiceImpl positionServiceImpl;
 	
 	//Get All Position
 	@GetMapping("/list")
-	public List<Positions> getAllPositions()
+	public ResponseEntity<?> getAllPositions()
 	{
-		return positionService.getAllPositions();
+		return new ResponseEntity<>(new ApiResponse(positionServiceImpl.getAllPositions(),
+				"Get All Position Successfully :"), HttpStatus.ACCEPTED);
 	}
 	
 	//Get Specific Data
 	@GetMapping("/view/{id}")
-	public Optional<Positions> getPositionById(@PathVariable("id") int id)
+	public ResponseEntity<?> getPositionById(@PathVariable("id") int id)
 	{
-		return positionService.getPositionById(id);
+		return new ResponseEntity<>(new ApiResponse(positionServiceImpl.getPositionById(id),
+				"Get Position Successfully at this :"), HttpStatus.ACCEPTED);
 	}
 	
 	//Delete specific data
 	@DeleteMapping("delete/{id}")
-	public ResponseEntity<Object> deletePosition(@PathVariable("id") int id)
+	public ResponseEntity<?> deletePosition(@PathVariable("id") int id)
 	{
-		positionService.deletePosition(id);
-		return new ResponseEntity<Object>("Position Deleted Successfully", HttpStatus.ACCEPTED);
+		positionServiceImpl.deletePosition(id);
+		return new ResponseEntity<>(new ApiResponse(positionServiceImpl.deletePosition(id),
+				"Delete Position Successfully at this :"), HttpStatus.ACCEPTED);
 	}
 	
 	// Create Data
 	@PostMapping("/add")
-	public ResponseEntity<Object> createPosition(@Validated @RequestBody Positions positions)
-	{
-		 positionService.createPosition(positions);
-		 return new ResponseEntity<Object>("Position Created Successfully",HttpStatus.CREATED);
-		
+	public ResponseEntity<?> createPosition(@Validated @RequestBody PositionsRequest positionsRequest)
+			throws IllegalAccessException, InvocationTargetException {
+		return new ResponseEntity<>(new ApiResponse(positionServiceImpl.createPosition(positionsRequest).getId(),
+				"Position Created Successfully at this :"), HttpStatus.CREATED);
 	}
+
 	
 	// Update Data
 	@PutMapping("/update")
-	public ResponseEntity<Object> updatePositions(@Validated @RequestBody Positions positions)
+	public ResponseEntity<?> updatePositions(@Validated @RequestBody PositionsUpdateRequest positionsUpdateRequest)throws IllegalAccessException, InvocationTargetException
 	{
-		positionService.updatePosition(positions);
-	    return new ResponseEntity<Object>("Position Updated Successfully", HttpStatus.ACCEPTED);	
+		return new ResponseEntity<>(new ApiResponse(positionServiceImpl.updatePosition(positionsUpdateRequest).getId(),
+				"Position Updated Successfully at this :"), HttpStatus.ACCEPTED);
 	}
 		
 }

@@ -1,5 +1,6 @@
 package com.weekend.drive.interview.bean;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import org.apache.commons.beanutils.BeanUtils;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.weekend.drive.interview.response.PositionsResponse;
 
 @Entity
 @Table(name = "positions")
@@ -59,5 +63,16 @@ public class Positions
 		this.description = description;
 	}
 
+	public static PositionsResponse toPositionResponseEnttity(PositionsResponse positionsResponse) throws IllegalAccessException, InvocationTargetException {
+		Positions positions = new Positions();
+		BeanUtils.copyProperties(positionsResponse, positions);
+		return positionsResponse;
+	}
+
+	public PositionsResponse toPositionResponseEnttity(Positions positions) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 		
 }

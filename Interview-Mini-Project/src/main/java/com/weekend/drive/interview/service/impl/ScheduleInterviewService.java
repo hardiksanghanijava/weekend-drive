@@ -19,6 +19,7 @@ import com.weekend.drive.interview.bean.ScheduleInterviewListDto;
 import com.weekend.drive.interview.exception.IntervieweeNotFoundException;
 import com.weekend.drive.interview.repository.ScheduleInterviewDtoRepository;
 import com.weekend.drive.interview.repository.ScheduleInterviewRepository;
+import com.weekend.drive.interview.service.PositionService;
 
 @Service
 public class ScheduleInterviewService {
