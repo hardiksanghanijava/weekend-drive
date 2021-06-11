@@ -28,6 +28,7 @@ public class PositionServiceImpl implements PositionService {
 	private PositionsRepository positionRepository;
 	
 	//get all data
+	@Override
 	public List<PositionsResponse> getAllPositions(){
 		List<Positions> positions =  positionRepository.findAll();
 		List<PositionsResponse> positionResponse = new ArrayList<>();
@@ -40,18 +41,22 @@ public class PositionServiceImpl implements PositionService {
 	}
 	
 	//get particular data
-	public PositionsResponse getPositionById(int id){
-		Positions positions = positionRepository.findById(id).get();
-		if(positions.equals(null))
-		{
+	@Override
+	public PositionsResponse getPositionById(int id) throws IllegalAccessException, InvocationTargetException{
+		Optional<Positions> positions = positionRepository.findById(id);
+		
+		if(positions.isEmpty())
 			throw new PositionsNotFoundException("Position : " + id + " not found");
-		}
-		PositionsResponse positionsResponse = positions.toPositionResponseEnttity(positions);
+		
+		Positions positions2 = positions.get();
+		
+		PositionsResponse positionsResponse = Positions.toPositionResponseEnttity(positions2);
 		logger.info("Get Position By Id: ",positions);
 		return positionsResponse;
 	}
 	
 	//create Data
+	@Override
 	public Positions createPosition(PositionsRequest positionsRequest) throws IllegalAccessException, InvocationTargetException {
 		Positions position = positionRepository.save(PositionsRequest.toPositionRequestEnttity(positionsRequest));
 		logger.info("Created Resource : " + position);
@@ -60,19 +65,14 @@ public class PositionServiceImpl implements PositionService {
 	
 	
 	//delete Data
-	public Optional<Positions> deletePosition(int id) {
-		Optional<Positions> positions = positionRepository.findById(id);
-		if(positions.isEmpty()) {
-			throw new PositionsNotFoundException("Id : " + id);
-			}
-		else {
-			logger.info("Delete Position: ",positions);
+	@Override
+	public void deletePosition(int id) throws IllegalAccessException, InvocationTargetException {
+			getPositionById(id);
 			positionRepository.deleteById(id);
-	}
-		return positions;
 	}
 		
 	//Update Data
+	@Override
 	public Positions updatePosition(PositionsUpdateRequest positionsUpdateRequest) throws IllegalAccessException, InvocationTargetException {
 		getPositionById(positionsUpdateRequest.getId());	
 		Positions position = positionRepository.save(PositionsUpdateRequest.toPositionRequestEnttity(positionsUpdateRequest));

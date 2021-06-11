@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -21,7 +23,7 @@ import com.weekend.drive.interview.response.PositionsResponse;
 public class Positions 
 {
 	@Id
-	//@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	@Size(min=2, message="Name should have atleast 2 characters")
 	private String name;
@@ -63,16 +65,11 @@ public class Positions
 		this.description = description;
 	}
 
-	public static PositionsResponse toPositionResponseEnttity(PositionsResponse positionsResponse) throws IllegalAccessException, InvocationTargetException {
-		Positions positions = new Positions();
+	public static PositionsResponse toPositionResponseEnttity(Positions positions) throws IllegalAccessException, InvocationTargetException {
+		PositionsResponse positionsResponse = new PositionsResponse();
 		BeanUtils.copyProperties(positionsResponse, positions);
 		return positionsResponse;
 	}
 
-	public PositionsResponse toPositionResponseEnttity(Positions positions) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 		
 }

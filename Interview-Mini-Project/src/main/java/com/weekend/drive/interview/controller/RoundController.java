@@ -1,13 +1,11 @@
 package  com.weekend.drive.interview.controller;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
-
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.weekend.drive.interview.request.RoundUpdateRequest;
 import com.weekend.drive.interview.response.ApiResponse;
-import com.weekend.drive.interview.response.RoundResponse;
 import com.weekend.drive.interview.service.impl.RoundServiceImpl;
 
 
@@ -50,10 +47,9 @@ public class RoundController {
 	}
 	
 	//method to update the rounds by specific id
-    @PutMapping("/update/{id}")
-	public  ResponseEntity<?> updateRound(@Valid @PathVariable int id, @RequestBody RoundUpdateRequest roundRequest) throws IllegalAccessException, InvocationTargetException{
-		roundService.updateRound(id, roundRequest);
-		return new ResponseEntity<>(new ApiResponse<>(id,"The Round was updated successfully at id:") , HttpStatus.ACCEPTED);
+    @PutMapping("/update")
+	public  ResponseEntity<?> updateRound(@Validated @RequestBody RoundUpdateRequest roundRequest) throws IllegalAccessException, InvocationTargetException{
+		return new ResponseEntity<>(new ApiResponse<>(roundService.updateRound(roundRequest).getId(),"The Round was updated successfully at id:") , HttpStatus.ACCEPTED);
 		
 	}
 	

@@ -10,15 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.weekend.drive.interview.bean.Interviewee;
-import com.weekend.drive.interview.bean.ScheduleInterviewDto;
 import com.weekend.drive.interview.exception.InterviewAlreadyScheduled;
 import com.weekend.drive.interview.exception.IntervieweeNotFoundException;
 import com.weekend.drive.interview.repository.IntervieweeRepository;
 import com.weekend.drive.interview.request.IntervieweeCreateRequest;
 import com.weekend.drive.interview.request.IntervieweeUpdateRequest;
 import com.weekend.drive.interview.response.IntervieweeResponse;
+import com.weekend.drive.interview.response.ScheduleInterviewResponse;
 import com.weekend.drive.interview.service.IntervieweeService;
-
+import com.weekend.drive.interview.service.ScheduleInterviewService;
 
 @Service
 public class IntervieweeServiceImpl implements IntervieweeService{
@@ -50,7 +50,6 @@ public class IntervieweeServiceImpl implements IntervieweeService{
 		});
 		
 		logger.info("All Retieved Records : " + intervieweeResponse);
-		
 		//Returning the response
 		return intervieweeResponse;
 	}
@@ -59,11 +58,7 @@ public class IntervieweeServiceImpl implements IntervieweeService{
 	@Override
 	public IntervieweeResponse getIntervieweeById(int id) throws IllegalAccessException, InvocationTargetException{
 		//Getting original interviewee by id
-		Interviewee interviewee = intervieweeRepository.findById(id).get();
-		
-		//Condition for interviewee exist or not
-		if(interviewee==null)
-			throw new IntervieweeNotFoundException("Interviewee " + id + " Not Foud");
+		Interviewee interviewee = intervieweeRepository.findById(id).orElseThrow(() -> new IntervieweeNotFoundException("Interviewee " + id + " Not Foud"));
 		
 		//Coping original to response
 		IntervieweeResponse intervieweeResponse = Interviewee.toIntervieweeEntityResponse(interviewee);
@@ -91,7 +86,7 @@ public class IntervieweeServiceImpl implements IntervieweeService{
 		getIntervieweeById(id);
 		
 		//Fetch all scheduled interviews
-		List<ScheduleInterviewDto> scheduleInterview = scheduleInterviewService.getAllScheduleInterviewDto();
+		List<ScheduleInterviewResponse> scheduleInterview = scheduleInterviewService.getAllScheduleInterviewDto();
 		
 		//Stream api loop for checking foreign keys
 		scheduleInterview.stream().forEach(scheduleInterview2 -> 

@@ -9,15 +9,16 @@ import com.weekend.drive.interview.bean.Round;
 
 public class RoundUpdateRequest {
 	
+	private int id;
 	private String name;
 	private int sequence;
 	
-	protected RoundUpdateRequest() {}
 	
-	public RoundUpdateRequest(String name, int sequence) {
-		super();
-		this.name = name;
-		this.sequence = sequence;
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	public String getName() {
 		return name;

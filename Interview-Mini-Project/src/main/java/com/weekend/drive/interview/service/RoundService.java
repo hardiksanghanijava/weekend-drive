@@ -12,6 +12,6 @@ public interface RoundService {
 	public List<RoundResponse> getAllRounds();
 	public RoundResponse getRoundById( int id) throws IllegalAccessException, InvocationTargetException;
 	public void deleteRound( int id) throws IllegalAccessException, InvocationTargetException;
-	public Round updateRound( int id, RoundUpdateRequest roundUpdateRequest) throws IllegalAccessException, InvocationTargetException;
+	public Round updateRound(RoundUpdateRequest roundUpdateRequest) throws IllegalAccessException, InvocationTargetException;
 
 }

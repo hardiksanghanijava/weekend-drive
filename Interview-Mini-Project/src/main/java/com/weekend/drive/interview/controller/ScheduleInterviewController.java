@@ -1,5 +1,4 @@
-package  com.weekend.drive.interview.controller;
-
+package com.weekend.drive.interview.controller;
 
 
 import java.lang.reflect.InvocationTargetException;
@@ -20,11 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.weekend.drive.interview.bean.ScheduleInterview;
-import com.weekend.drive.interview.bean.ScheduleInterviewDto;
 import com.weekend.drive.interview.bean.ScheduleInterviewListDto;
-import com.weekend.drive.interview.repository.ScheduleInterviewListDtoRepository;
 import com.weekend.drive.interview.repository.ScheduleInterviewRepository;
-import com.weekend.drive.interview.service.impl.ScheduleInterviewService;
+import com.weekend.drive.interview.request.ScheduleInterviewCreateRequest;
+import com.weekend.drive.interview.request.ScheduleInterviewUpdateRequest;
+import com.weekend.drive.interview.response.ApiResponse;
+import com.weekend.drive.interview.service.impl.ScheduleInterviewServiceImpl;
 
 
 
@@ -33,71 +33,69 @@ import com.weekend.drive.interview.service.impl.ScheduleInterviewService;
 public class ScheduleInterviewController {
 
 	@Autowired
-	private ScheduleInterviewService scheduleInterviewService;
-	
-	@Autowired
-	private ScheduleInterviewListDtoRepository scheduleInterviewListDtoRepository;
+	private ScheduleInterviewServiceImpl scheduleInterviewServiceImpl;
 	
 	@Autowired
 	ScheduleInterviewRepository scheduleInterviewRepository;
 	
 	//Find All Data
 	@GetMapping("/schedule")
-	public List<ScheduleInterviewDto> getAllScheduleInterview(){
-		return scheduleInterviewService.getAllScheduleInterviewDto();
+	public ResponseEntity<?> getAllScheduleInterview(){
+		return new ResponseEntity<>(new ApiResponse<>(scheduleInterviewServiceImpl.getAllScheduleInterviewDto(),
+				"All Interviewees"), HttpStatus.OK);
 	}
 	
 	//Find Data By Id
 	@GetMapping("/schedule/{id}")
 	public Optional<ScheduleInterview> getScheduleInterviewById(@PathVariable int id){
-		return scheduleInterviewService.getScheduleInterviewById(id);
+		return scheduleInterviewServiceImpl.getScheduleInterviewById(id);
 	}
 		
 	//Get Scheduled List
 	@GetMapping("/schedule/list")
 	public List<ScheduleInterviewListDto> getScheduledList(){
-		return scheduleInterviewService.getScheduledList();
+		return scheduleInterviewServiceImpl.getScheduledList();
 	}
 	
 	//Get Scheduled List In Pagination
 	@GetMapping("/schedule/list/{page}")
 	public List<ScheduleInterviewListDto> getScheduledListPagination(@PathVariable int page){
-		return scheduleInterviewService.getScheduledListPagination(page);
+		return scheduleInterviewServiceImpl.getScheduledListPagination(page);
 	}
-		
+	
 	//Create Resource
 	@PostMapping("/add")
-	public ResponseEntity<Object> createScheduleInterview(@Validated @RequestBody ScheduleInterviewDto scheduleInterview) throws IllegalAccessException, InvocationTargetException {
-		scheduleInterviewService.createScheduleInterview(scheduleInterview);
-		return new ResponseEntity<Object>("Interview Scheduled Successfully", HttpStatus.CREATED);
+	public ResponseEntity<?> createScheduleInterview(@Validated @RequestBody ScheduleInterviewCreateRequest scheduleInterviewCreateRequest) throws IllegalAccessException, InvocationTargetException {
+		return new ResponseEntity<>(new ApiResponse<>(scheduleInterviewServiceImpl.createScheduleInterview(scheduleInterviewCreateRequest).getId(),
+				"Interview Scheduled Successfully"), HttpStatus.CREATED);
 	}
 	
 	//Reschedule Status
 	@PutMapping("/reschedule/{id}")
-	public ResponseEntity<Object> rescheduleStatus(@PathVariable int id){
-		scheduleInterviewService.rescheduleStatus(id);
-		return new ResponseEntity<Object>("Interview Rescheduled Successfully", HttpStatus.ACCEPTED);
+	public ResponseEntity<?> rescheduleStatus(@PathVariable int id) {
+		return new ResponseEntity<>(new ApiResponse<>(scheduleInterviewServiceImpl.rescheduleStatus(id).getId(),
+				"Interview Rescheduled Successfully"), HttpStatus.ACCEPTED);
 	}
 	
 	//Change Status
 	@PutMapping("/{id}/status")
-	public ResponseEntity<Object> setScheduleInterviewStatus(@PathVariable int id, @RequestBody String status){
-		scheduleInterviewService.setScheduleInterviewStatus(id, status);
-		return new ResponseEntity<Object>("Status Updated to " + status + " Successfully", HttpStatus.ACCEPTED);
+	public ResponseEntity<?> setScheduleInterviewStatus(@PathVariable int id, @RequestBody String status){
+		return new ResponseEntity<>(new ApiResponse<>(scheduleInterviewServiceImpl.setScheduleInterviewStatus(id, status).getId(),
+				"Interview Status Updated Successfully"), HttpStatus.ACCEPTED);
 	}	
 	
 	//Delete Resource By Id
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<Object> deleteScheduleInterview(@PathVariable int id) {
-		scheduleInterviewService.deleteScheduleInterview(id);
-		return new ResponseEntity<Object>("Interview Deleted Successfully", HttpStatus.ACCEPTED);
+		scheduleInterviewServiceImpl.deleteScheduleInterview(id);
+		return new ResponseEntity<>(new ApiResponse<>(id,"Interview Deleted Successfully"), HttpStatus.ACCEPTED);
 	}
 	
 	//Update Resource
-	@PutMapping("/update/{id}")
-	public ResponseEntity<Object> updateScheduleInterview(@Validated @PathVariable int id, @RequestBody ScheduleInterviewDto scheduleInterviewdto) {
-		scheduleInterviewService.updateScheduleInterviewDto(id, scheduleInterviewdto);
-		return new ResponseEntity<Object>("Interview Updated Successfully", HttpStatus.ACCEPTED);
+	@PutMapping("/update")
+	public ResponseEntity<Object> updateScheduleInterview(@Validated @RequestBody ScheduleInterviewUpdateRequest scheduleInterviewUpdateRequest) throws IllegalAccessException, InvocationTargetException {
+		return new ResponseEntity<>(new ApiResponse<>(scheduleInterviewServiceImpl.updateScheduleInterviewDto(scheduleInterviewUpdateRequest).getId(),"Interview Updated Successfully"), HttpStatus.ACCEPTED);
+		
 	}
 	
 }

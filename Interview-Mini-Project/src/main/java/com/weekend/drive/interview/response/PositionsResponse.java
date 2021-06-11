@@ -1,20 +1,17 @@
 package com.weekend.drive.interview.response;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
 
 import com.weekend.drive.interview.bean.Positions;
-import com.weekend.drive.interview.bean.ScheduleInterview;
 
-public class PositionsResponse<T> 
+public class PositionsResponse 
 {
 	private int id;
 	private String name;
 	private String description;
-	private List<ScheduleInterview> scheduleInterview = new ArrayList<>();	
+	
 	public int getId() {
 		return id;
 	}

@@ -5,7 +5,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -22,7 +25,10 @@ import com.weekend.drive.interview.response.InterviewerResponse;
 public class Interviewer {
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
+	
+	@Column(name="name")
 	@Size(min=2, message="Name should be more than 2 letters")
 	private String name;
 	
@@ -30,7 +36,14 @@ public class Interviewer {
 	private List<ScheduleInterview> scheduleInterview = new ArrayList<>();
 	
 	public Interviewer(){}
-	
+
+	public Interviewer(int id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
+
+
 
 	public int getId() {
 		return id;

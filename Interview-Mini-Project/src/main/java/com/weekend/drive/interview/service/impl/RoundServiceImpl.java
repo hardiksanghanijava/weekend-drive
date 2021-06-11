@@ -3,6 +3,7 @@ package com.weekend.drive.interview.service.impl;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,12 +21,13 @@ import com.weekend.drive.interview.service.RoundService;
 @Service
 public class RoundServiceImpl implements RoundService{
 	
-	Logger logger= LoggerFactory.getLogger(this.getClass());
+	Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
 	private RoundRepository roundRepository;
 	
 	//method to retrieve all the rounds	
+	@Override
 	public List<RoundResponse> getAllRounds(){
 		
 		//Retrieving all round entities
@@ -37,10 +39,9 @@ public class RoundServiceImpl implements RoundService{
 			try {
 				roundResponse.add(Round.toRoundEntityResponse(round));
 			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		});
@@ -49,21 +50,24 @@ public class RoundServiceImpl implements RoundService{
 	}
 	
 	//method to retrieve the rounds by specific id	
+	@Override
 	public RoundResponse getRoundById( int id) throws IllegalAccessException, InvocationTargetException{
 	
 		//Retrieving round by id
-		Round round = roundRepository.findById(id).get();
+		Optional<Round> round = roundRepository.findById(id);
 		//Checking if given id is present
-		if(round.equals(null)) {
+		if(round.isEmpty())
 			throw new RoundNotFoundException("Round : " + id + " not found");
-		}
+		
+		Round round2 = round.get();
 		//Storing entity to response
-		RoundResponse roundResponse= Round.toRoundEntityResponse(round);
+		RoundResponse roundResponse= Round.toRoundEntityResponse(round2);
 		logger.info("The method retreived by id {} is {}",id,roundResponse);
 		return roundResponse;
 	}
 	
 	//method to delete the rounds by specific id
+	@Override
 	public void deleteRound( int id) throws IllegalAccessException, InvocationTargetException{
 		
 		//Fetching and checking the round present at id
@@ -77,14 +81,13 @@ public class RoundServiceImpl implements RoundService{
 	
  
 	//method to update the rounds by specific id
-	public Round updateRound( int id, RoundUpdateRequest roundUpdateRequest) throws IllegalAccessException, InvocationTargetException{
+	@Override
+	public Round updateRound(RoundUpdateRequest roundUpdateRequest) throws IllegalAccessException, InvocationTargetException{
 		
 		//Fetching and checking the round present at id
-		 getRoundById(id);
-		
-
+		 getRoundById(roundUpdateRequest.getId());
+	
 		 Round round = roundRepository.save(RoundUpdateRequest.toRoundRequestEntity(roundUpdateRequest));
-		roundRepository.save(roundUpdateRequest);
 		logger.info("The updated fields are{}",roundUpdateRequest);
 		
 		return round;

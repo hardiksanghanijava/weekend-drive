@@ -1,13 +1,9 @@
 package com.weekend.drive.interview.service;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.weekend.drive.interview.bean.Interviewer;
-import com.weekend.drive.interview.bean.ScheduleInterviewDto;
-import com.weekend.drive.interview.exception.InterviewAlreadyScheduled;
-import com.weekend.drive.interview.exception.InterviewerNotFoundException;
 import com.weekend.drive.interview.request.InterviewerCreateRequest;
 import com.weekend.drive.interview.request.InterviewerUpdateRequest;
 import com.weekend.drive.interview.response.InterviewerResponse;

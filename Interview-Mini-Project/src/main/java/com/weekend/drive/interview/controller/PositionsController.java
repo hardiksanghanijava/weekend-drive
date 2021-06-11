@@ -30,15 +30,14 @@ public class PositionsController
 	
 	//Get All Position
 	@GetMapping("/list")
-	public ResponseEntity<?> getAllPositions()
-	{
+	public ResponseEntity<?> getAllPositions() {
 		return new ResponseEntity<>(new ApiResponse<>(positionServiceImpl.getAllPositions(),
 				"Get All Position Successfully :"), HttpStatus.ACCEPTED);
 	}
 	
 	//Get Specific Data
 	@GetMapping("/view/{id}")
-	public ResponseEntity<?> getPositionById(@PathVariable("id") int id)
+	public ResponseEntity<?> getPositionById(@PathVariable("id") int id) throws IllegalAccessException, InvocationTargetException
 	{
 		return new ResponseEntity<>(new ApiResponse<>(positionServiceImpl.getPositionById(id),
 				"Get Position Successfully at this :"), HttpStatus.ACCEPTED);
@@ -46,11 +45,10 @@ public class PositionsController
 	
 	//Delete specific data
 	@DeleteMapping("delete/{id}")
-	public ResponseEntity<?> deletePosition(@PathVariable("id") int id)
-	{
+	public ResponseEntity<?> deletePosition(@PathVariable int id) throws IllegalAccessException, InvocationTargetException{
 		positionServiceImpl.deletePosition(id);
-		return new ResponseEntity<>(new ApiResponse<>(positionServiceImpl.deletePosition(id),
-				"Delete Position Successfully at this :"), HttpStatus.ACCEPTED);
+		return new ResponseEntity<>(new ApiResponse<>(id,
+				"Position Deleted Successfully "), HttpStatus.ACCEPTED);
 	}
 	
 	// Create Data

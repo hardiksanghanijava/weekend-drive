@@ -8,17 +8,6 @@ public class IntervieweeResponse {
 	private String experience;
 	private String qualification;
 	
-	
-	public IntervieweeResponse() {}
-	
-	public IntervieweeResponse(int id, String name, String skills, String experience, String qualification) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.skills = skills;
-		this.experience = experience;
-		this.qualification = qualification;
-	}
 	public int getId() {
 		return id;
 	}

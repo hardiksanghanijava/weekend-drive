@@ -18,26 +18,27 @@ import org.springframework.web.bind.annotation.RestController;
 import com.weekend.drive.interview.request.IntervieweeCreateRequest;
 import com.weekend.drive.interview.request.IntervieweeUpdateRequest;
 import com.weekend.drive.interview.response.ApiResponse;
-import com.weekend.drive.interview.service.impl.IntervieweeServiceImpl;
+import com.weekend.drive.interview.service.IntervieweeService;
 
 @RestController
 @RequestMapping("/api/interviewee")
 public class IntervieweeController {
 
 	@Autowired
-	private IntervieweeServiceImpl intervieweeServiceImpl;
+	private IntervieweeService intervieweeService;
 
+	
 	// Find All Data
 	@GetMapping("/list")
 	public ResponseEntity<?> getAllInterviewee() {
-		return new ResponseEntity<>(new ApiResponse(intervieweeServiceImpl.getAllInterviewee(),
+		return new ResponseEntity<>(new ApiResponse<>(intervieweeService.getAllInterviewee(),
 				"All Interviewees"), HttpStatus.OK);
 	}
 
 	// Find Data By Id
 	@GetMapping("/view/{id}")
 	public ResponseEntity<?> getIntervieweeById(@PathVariable int id) throws IllegalAccessException, InvocationTargetException {
-				return new ResponseEntity<>(new ApiResponse<>(intervieweeServiceImpl.getIntervieweeById(id),
+				return new ResponseEntity<>(new ApiResponse<>(intervieweeService.getIntervieweeById(id),
 				"Interviewee Presente at this id " + id), HttpStatus.OK);
 	}
 
@@ -45,14 +46,14 @@ public class IntervieweeController {
 	@PostMapping("/add")
 	public ResponseEntity<?> createInterviewee(@Validated @RequestBody IntervieweeCreateRequest intervieweeCreateRequest)
 			throws IllegalAccessException, InvocationTargetException {
-		return new ResponseEntity<>(new ApiResponse<>(intervieweeServiceImpl.createInterviewee(intervieweeCreateRequest).getId(),
+		return new ResponseEntity<>(new ApiResponse<>(intervieweeService.createInterviewee(intervieweeCreateRequest).getId(),
 				"Interviewee Created Successfully"), HttpStatus.CREATED);
 	}
 
 	// Delete Resource By Id
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> deleteInterviewee(@PathVariable int id) throws IllegalAccessException, InvocationTargetException {
-		intervieweeServiceImpl.deleteInterviewee(id);
+		intervieweeService.deleteInterviewee(id);
 		return new ResponseEntity<>(new ApiResponse<>(id,
 				"Interviewee Delete Successfully"), HttpStatus.ACCEPTED);
 	}
@@ -60,7 +61,7 @@ public class IntervieweeController {
 	//Update Resource
 	@PutMapping("/update")
 	public ResponseEntity<?> updateInterviewee(@Validated @RequestBody IntervieweeUpdateRequest intervieweeUpdateRequest) throws IllegalAccessException, InvocationTargetException {
-		return new ResponseEntity<>(new ApiResponse<>(intervieweeServiceImpl.updateInterviewee(intervieweeUpdateRequest).getId(), 
+		return new ResponseEntity<>(new ApiResponse<>(intervieweeService.updateInterviewee(intervieweeUpdateRequest).getId(), 
 				"Interviewee Updated Successfully"), HttpStatus.ACCEPTED);
 	}
 

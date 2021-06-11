@@ -1,6 +1,5 @@
 package com.weekend.drive.interview.bean;
 
-
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -30,7 +29,6 @@ public class ScheduleInterview {
 	
 	@ManyToOne(fetch=FetchType.LAZY, targetEntity = Interviewee.class, cascade=CascadeType.ALL, optional = false)
 	@JoinColumn(name="interviewee_id", referencedColumnName="id")
-	//@JsonIgnore
 	private Interviewee interviewee;
 
 	@ManyToOne(fetch=FetchType.LAZY)

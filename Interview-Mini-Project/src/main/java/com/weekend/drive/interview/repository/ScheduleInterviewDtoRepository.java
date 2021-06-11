@@ -8,6 +8,5 @@ import com.weekend.drive.interview.bean.ScheduleInterviewDto;
 @Repository
 public interface ScheduleInterviewDtoRepository extends JpaRepository<ScheduleInterviewDto,Integer>{
 
-	//ScheduleInterviewDto save(ScheduleInterviewDto scheduleInterviewDto);
 
 }

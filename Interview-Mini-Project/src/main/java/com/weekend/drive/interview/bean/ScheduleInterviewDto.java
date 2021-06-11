@@ -1,19 +1,26 @@
 package com.weekend.drive.interview.bean;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.commons.beanutils.BeanUtils;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.weekend.drive.interview.response.ScheduleInterviewResponse;
 
 @Entity
 @Table(name="scheduled_interview")
 public class ScheduleInterviewDto {
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
 	@JsonProperty("interviewee_id")
@@ -113,6 +120,12 @@ public class ScheduleInterviewDto {
 
 	public void setIsdeleted(boolean isdeleted) {
 		this.isdeleted = isdeleted;
+	}
+	
+	public static ScheduleInterviewResponse toScheduleInterviewEntityResponse(ScheduleInterviewDto scheduleInterviewDto) throws IllegalAccessException, InvocationTargetException {
+		ScheduleInterviewResponse scheduleInterviewResponse = new ScheduleInterviewResponse();
+		BeanUtils.copyProperties(scheduleInterviewResponse, scheduleInterviewDto);
+		return scheduleInterviewResponse;	
 	}
 
 	@Override

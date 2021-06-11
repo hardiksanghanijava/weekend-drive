@@ -8,7 +8,7 @@ import com.weekend.drive.interview.bean.Interviewer;
 
 public class InterviewerCreateRequest {
 
-	
+	private String name;
 	
 	public InterviewerCreateRequest() {
 		super();
@@ -18,10 +18,7 @@ public class InterviewerCreateRequest {
 		super();
 		this.name = name;
 	}
-
-
-
-	private String name;
+	
 	
 		public String getName() {
 		return name;
