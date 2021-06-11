@@ -1,9 +1,6 @@
-package  com.weekend.drive.interview.controller;
-
+package com.weekend.drive.interview.controller;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,50 +15,53 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.weekend.drive.interview.bean.Interviewee;
-import com.weekend.drive.interview.request.IntervieweeRequest;
+import com.weekend.drive.interview.request.IntervieweeCreateRequest;
+import com.weekend.drive.interview.request.IntervieweeUpdateRequest;
 import com.weekend.drive.interview.response.ApiResponse;
-import com.weekend.drive.interview.service.impl.IntervieweeService;
+import com.weekend.drive.interview.service.impl.IntervieweeServiceImpl;
 
 @RestController
 @RequestMapping("/api/interviewee")
 public class IntervieweeController {
 
 	@Autowired
-	private IntervieweeService intervieweeService;
+	private IntervieweeServiceImpl intervieweeServiceImpl;
 
 	// Find All Data
 	@GetMapping("/list")
-	public List<Interviewee> getAllInterviewee() {
-		return intervieweeService.getAllInterviewee();
+	public ResponseEntity<?> getAllInterviewee() {
+		return new ResponseEntity<>(new ApiResponse(intervieweeServiceImpl.getAllInterviewee(),
+				"All Interviewees"), HttpStatus.OK);
 	}
 
 	// Find Data By Id
 	@GetMapping("/view/{id}")
-	public Optional<Interviewee> getIntervieweeById(@PathVariable int id) {
-		return intervieweeService.getIntervieweeById(id);
+	public ResponseEntity<?> getIntervieweeById(@PathVariable int id) throws IllegalAccessException, InvocationTargetException {
+				return new ResponseEntity<>(new ApiResponse<>(intervieweeServiceImpl.getIntervieweeById(id),
+				"Interviewee Presente at this id " + id), HttpStatus.OK);
 	}
 
 	// Create Resource
-//	@PostMapping("/add")
-//	public ResponseEntity<?> createInterviewee(@Validated @RequestBody IntervieweeRequest intervieweeRequest)
-//			throws IllegalAccessException, InvocationTargetException {
-//		return new ResponseEntity<>(new ApiResponse(intervieweeService.createInterviewee(intervieweeRequest).getId(),
-//				"Interviewee Created Successfully at this :"), HttpStatus.CREATED);
-//	}
+	@PostMapping("/add")
+	public ResponseEntity<?> createInterviewee(@Validated @RequestBody IntervieweeCreateRequest intervieweeCreateRequest)
+			throws IllegalAccessException, InvocationTargetException {
+		return new ResponseEntity<>(new ApiResponse<>(intervieweeServiceImpl.createInterviewee(intervieweeCreateRequest).getId(),
+				"Interviewee Created Successfully"), HttpStatus.CREATED);
+	}
 
 	// Delete Resource By Id
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<Object> deleteInterviewee(@PathVariable int id) {
-		intervieweeService.deleteInterviewee(id);
-		return new ResponseEntity<Object>("Interviewee Deleted Successfully", HttpStatus.ACCEPTED);
+	public ResponseEntity<?> deleteInterviewee(@PathVariable int id) throws IllegalAccessException, InvocationTargetException {
+		intervieweeServiceImpl.deleteInterviewee(id);
+		return new ResponseEntity<>(new ApiResponse<>(id,
+				"Interviewee Delete Successfully"), HttpStatus.ACCEPTED);
 	}
 
-	// Update Resource
+	//Update Resource
 	@PutMapping("/update")
-	public ResponseEntity<Object> updateInterviewee(@Validated @RequestBody Interviewee interviewee) {
-		intervieweeService.updateInterviewee(interviewee);
-		return new ResponseEntity<Object>("Interviewee Updated Successfully", HttpStatus.ACCEPTED);
+	public ResponseEntity<?> updateInterviewee(@Validated @RequestBody IntervieweeUpdateRequest intervieweeUpdateRequest) throws IllegalAccessException, InvocationTargetException {
+		return new ResponseEntity<>(new ApiResponse<>(intervieweeServiceImpl.updateInterviewee(intervieweeUpdateRequest).getId(), 
+				"Interviewee Updated Successfully"), HttpStatus.ACCEPTED);
 	}
 
 }

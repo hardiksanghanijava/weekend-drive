@@ -1,17 +1,24 @@
 package com.weekend.drive.interview.bean;
 
+
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import org.apache.commons.beanutils.BeanUtils;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.weekend.drive.interview.response.IntervieweeResponse;
 
 @Entity
 @Table(name="interviewee")
@@ -20,6 +27,7 @@ public class Interviewee {
 	
 	@Id
 	@Column(name="id")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	@Column(name="name")
 	@Size(min=2, message="Name should be more than 2 letters")
@@ -83,12 +91,20 @@ public class Interviewee {
 	public void setQualification(String qualification) {
 		this.qualification = qualification;
 	}
+	
+	
+	public static IntervieweeResponse toIntervieweeEntityResponse(Interviewee interviewee) throws IllegalAccessException, InvocationTargetException {
+		IntervieweeResponse intervieweeResponse = new IntervieweeResponse();
+		BeanUtils.copyProperties(intervieweeResponse, interviewee);
+		return intervieweeResponse;	
+	}
 
 	@Override
 	public String toString() {
 		return "Interviewee [id=" + id + ", name=" + name + ", skills=" + skills + ", experience=" + experience
 				+ ", qualification=" + qualification + "]";
 	}
-	
+
+
 
 }

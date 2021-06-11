@@ -6,8 +6,8 @@ import org.apache.commons.beanutils.BeanUtils;
 
 import com.weekend.drive.interview.bean.Interviewee;
 
-public class IntervieweeRequest {
-
+public class IntervieweeCreateRequest {
+	
 	private String name;
 	private String skills;
 	private String experience;
@@ -37,9 +37,10 @@ public class IntervieweeRequest {
 	public void setQualification(String qualification) {
 		this.qualification = qualification;
 	}
-	public static Interviewee toIntervieweeRequestEnttity(IntervieweeRequest intervieweeRequest) throws IllegalAccessException, InvocationTargetException {
+	
+	public static Interviewee toIntervieweeRequestEnttity(IntervieweeCreateRequest intervieweeCreateRequest) throws IllegalAccessException, InvocationTargetException {
 		Interviewee interviewee = new Interviewee();
-		BeanUtils.copyProperties(interviewee, intervieweeRequest);
+		BeanUtils.copyProperties(interviewee, intervieweeCreateRequest);
 		return interviewee;
 	}
 	
