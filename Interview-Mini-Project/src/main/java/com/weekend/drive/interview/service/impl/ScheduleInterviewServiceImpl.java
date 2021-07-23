@@ -16,11 +16,13 @@ import org.springframework.stereotype.Service;
 import com.weekend.drive.interview.bean.ScheduleInterview;
 import com.weekend.drive.interview.bean.ScheduleInterviewDto;
 import com.weekend.drive.interview.bean.ScheduleInterviewListDto;
+import com.weekend.drive.interview.bean.ScheduleInterviewNameDto;
 import com.weekend.drive.interview.exception.IntervieweeNotFoundException;
 import com.weekend.drive.interview.repository.ScheduleInterviewDtoRepository;
 import com.weekend.drive.interview.repository.ScheduleInterviewRepository;
 import com.weekend.drive.interview.request.ScheduleInterviewCreateRequest;
 import com.weekend.drive.interview.request.ScheduleInterviewUpdateRequest;
+import com.weekend.drive.interview.response.ScheduleInterviewNameResponse;
 import com.weekend.drive.interview.response.ScheduleInterviewResponse;
 import com.weekend.drive.interview.service.ScheduleInterviewService;
 
@@ -84,6 +86,40 @@ public class ScheduleInterviewServiceImpl implements  ScheduleInterviewService{
 		//Returning response list
 		return scheduleInterviewResponse;
 	}
+
+	//Retrieve all scheduled interview by Name
+		@Override
+		public List<ScheduleInterviewNameResponse> getAllScheduleInterviewNameDto(){
+			//Retrieving the original entity
+			List<ScheduleInterview> scheduleInterview =  scheduleinterviewRepository.findAll();
+			
+			//Creating DTO List
+			List<ScheduleInterviewNameDto> scheduleInterviewNameDto = new ArrayList<>();
+			
+			//Iterating entity to DTO
+			scheduleInterview.stream().forEach(scheduleInterviews -> {
+				scheduleInterviewNameDto.add(new ScheduleInterviewNameDto(scheduleInterviews.getId(), scheduleInterviews.getInterviewee().getName(),
+						scheduleInterviews.getInterviewer().getName(), scheduleInterviews.getPositions().getName(),
+						scheduleInterviews.getRound().getName(), scheduleInterviews.getTime(), scheduleInterviews.getStatus()));
+			});
+			
+			//Creating Response list 
+			List<ScheduleInterviewNameResponse> scheduleInterviewNameResponse = new ArrayList<>();
+			
+			//Iterating DTO list to response list 
+			scheduleInterviewNameDto.stream().forEach(scheduleInterviews -> {
+				try {
+					scheduleInterviewNameResponse.add(ScheduleInterviewNameDto.toScheduleInterviewNameResponse(scheduleInterviews));
+				} catch (IllegalAccessException | InvocationTargetException e) {
+					e.printStackTrace();
+				}
+			});
+			
+			logger.info("Retrieving All Records : " + scheduleInterviewNameResponse);
+			
+			//Returning response list
+			return scheduleInterviewNameResponse;
+		}
 	
 	//Retrieve Scheduled Interview List
 	@Override
@@ -119,7 +155,7 @@ public class ScheduleInterviewServiceImpl implements  ScheduleInterviewService{
 		
 		//Cheating Schedule Interview from request
 		ScheduleInterviewDto scheduleInterview = scheduleinterviewRepository.save(ScheduleInterviewCreateRequest.toScheduleInterviewRequestEnttity(scheduleInterviewCreateRequest));
-		logger.info("Updated Resource : " + scheduleInterview);
+		logger.info("Created Resource : " + scheduleInterview);
 		return scheduleInterview;
 	}
 	

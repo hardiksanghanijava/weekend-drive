@@ -9,6 +9,7 @@ import com.weekend.drive.interview.bean.ScheduleInterviewDto;
 import com.weekend.drive.interview.bean.ScheduleInterviewListDto;
 import com.weekend.drive.interview.request.ScheduleInterviewCreateRequest;
 import com.weekend.drive.interview.request.ScheduleInterviewUpdateRequest;
+import com.weekend.drive.interview.response.ScheduleInterviewNameResponse;
 import com.weekend.drive.interview.response.ScheduleInterviewResponse;
 
 public interface ScheduleInterviewService {
@@ -40,6 +41,9 @@ public interface ScheduleInterviewService {
 	public List<ScheduleInterviewListDto> getScheduledListPagination(int page);
 
 	Optional<ScheduleInterview> getScheduleInterviewById(int id);
+
+	//Retrieve Scheduled Interview List by Name
+	List<ScheduleInterviewNameResponse> getAllScheduleInterviewNameDto();
 
 	
 

@@ -3,6 +3,7 @@ package com.weekend.drive.interview.service.impl;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,15 +58,38 @@ public class IntervieweeServiceImpl implements IntervieweeService{
 	//Retrieve interviewee by id
 	@Override
 	public IntervieweeResponse getIntervieweeById(int id) throws IllegalAccessException, InvocationTargetException{
-		//Getting original interviewee by id
-		Interviewee interviewee = intervieweeRepository.findById(id).orElseThrow(() -> new IntervieweeNotFoundException("Interviewee " + id + " Not Foud"));
 		
-		//Coping original to response
-		IntervieweeResponse intervieweeResponse = Interviewee.toIntervieweeEntityResponse(interviewee);
-		logger.info("Find record by id : " + intervieweeResponse);
+		//Getting original interviewer by id
+				Optional<Interviewee> interviewee = intervieweeRepository.findById(id);
+				
+				//Condition for interviewer exist or not
+				if(interviewee.isEmpty())
+					throw new IntervieweeNotFoundException("Interviewee " + id + " Not Foud");
+				
+				Interviewee interviewee2 = interviewee.get();
+				//Coping original to response
+				IntervieweeResponse intervieweeResponse = Interviewee.toIntervieweeEntityResponse(interviewee2);
+				logger.info("Find record by id : " + intervieweeResponse);
+				
+				//Returning the response
+				return intervieweeResponse;
 		
-		//Returning the response
-		return intervieweeResponse;
+				
+//		//Getting original interviewee by id
+//		Interviewee interviewee = intervieweeRepository.findById(id).orElseThrow(() -> new IntervieweeNotFoundException("Interviewee " + id + " Not Foud"));
+//		
+//		//Coping original to response
+//		IntervieweeResponse intervieweeResponse = Interviewee.toIntervieweeEntityResponse(interviewee);
+//		logger.info("Find record by id : " + intervieweeResponse);
+//		
+//		//Returning the response
+//		return intervieweeResponse;
+	}
+	
+	@Override
+	public List<Interviewee> findByIntervieweeName(String name) {
+		List<Interviewee> findByNamee = intervieweeRepository.findByName(name);
+		return findByNamee;
 	}
 	
 	//Create new interviewee
@@ -88,7 +112,7 @@ public class IntervieweeServiceImpl implements IntervieweeService{
 		//Fetch all scheduled interviews
 		List<ScheduleInterviewResponse> scheduleInterview = scheduleInterviewService.getAllScheduleInterviewDto();
 		
-		//Stream api loop for checking foreign keys
+		//Stream API loop for checking foreign keys
 		scheduleInterview.stream().forEach(scheduleInterview2 -> 
 		{if(scheduleInterview2.getIntervieweeId()==id) {
 			throw new InterviewAlreadyScheduled("Sorry you can't delete this interviewee, It's already scheduled");

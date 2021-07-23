@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import com.weekend.drive.interview.response.ApiResponse;
 import com.weekend.drive.interview.service.IntervieweeService;
 
 @RestController
+@CrossOrigin(origins="http://localhost:6868")
 @RequestMapping("/api/interviewee")
 public class IntervieweeController {
 
@@ -41,7 +43,15 @@ public class IntervieweeController {
 				return new ResponseEntity<>(new ApiResponse<>(intervieweeService.getIntervieweeById(id),
 				"Interviewee Presente at this id " + id), HttpStatus.OK);
 	}
-
+	
+	// Find Data By Name
+		@GetMapping("/view/name/{name}")	
+		public ResponseEntity<?> getIntervieweeByName(@PathVariable String name) throws IllegalAccessException, InvocationTargetException {
+					return new ResponseEntity<>(new ApiResponse<>(intervieweeService.findByIntervieweeName(name),
+					"Interviewee Presente at this name " + name), HttpStatus.OK);
+		}
+		
+		
 	// Create Resource
 	@PostMapping("/add")
 	public ResponseEntity<?> createInterviewee(@Validated @RequestBody IntervieweeCreateRequest intervieweeCreateRequest)
@@ -55,7 +65,7 @@ public class IntervieweeController {
 	public ResponseEntity<?> deleteInterviewee(@PathVariable int id) throws IllegalAccessException, InvocationTargetException {
 		intervieweeService.deleteInterviewee(id);
 		return new ResponseEntity<>(new ApiResponse<>(id,
-				"Interviewee Delete Successfully"), HttpStatus.ACCEPTED);
+				"Interviewee Deleted Successfully"), HttpStatus.ACCEPTED);
 	}
 
 	//Update Resource

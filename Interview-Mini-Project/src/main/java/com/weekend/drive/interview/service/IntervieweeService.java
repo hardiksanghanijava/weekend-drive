@@ -16,6 +16,9 @@ public interface IntervieweeService {
 	//Retrieve interviewee by id
 	public IntervieweeResponse getIntervieweeById(int id) throws IllegalAccessException, InvocationTargetException;
 		
+	//By Name
+	public List<Interviewee> findByIntervieweeName(String name);
+	
 	//Create new interviewee
 	public Interviewee createInterviewee(IntervieweeCreateRequest intervieweeCreateRequest) throws IllegalAccessException, InvocationTargetException;
 		
