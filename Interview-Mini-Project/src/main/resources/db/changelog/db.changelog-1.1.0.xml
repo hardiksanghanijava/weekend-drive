@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="himanshu.nimavat (generated)" id="1628145752927-1">
+        <createTable tableName="interviewee">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="skills" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="experience" type="VARCHAR(45)"/>
+            <column name="qualification" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628145752927-2">
+        <createTable tableName="interviewer">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628145752927-3">
+        <createTable tableName="positions">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628145752927-4">
+        <createTable tableName="round">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sequence" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628145752927-5">
+        <createTable tableName="scheduled_interview">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="interviewee_id" type="INT"/>
+            <column name="interviewer_id" type="INT"/>
+            <column name="positions_id" type="INT"/>
+            <column name="round_id" type="INT"/>
+            <column name="time" type="datetime(6)"/>
+            <column name="status" type="VARCHAR(45)"/>
+            <column name="isdeleted" type="BIT(1)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628145752927-6">
+        <createIndex indexName="intervieweeid_idx" tableName="scheduled_interview">
+            <column name="interviewee_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628145752927-7">
+        <createIndex indexName="interviewerid_idx" tableName="scheduled_interview">
+            <column name="interviewer_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628145752927-8">
+        <createIndex indexName="positionid_idx" tableName="scheduled_interview">
+            <column name="positions_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628145752927-9">
+        <createIndex indexName="roundid_idx" tableName="scheduled_interview">
+            <column name="round_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628145752927-10">
+        <addForeignKeyConstraint baseColumnNames="interviewee_id" baseTableName="scheduled_interview" constraintName="interviewee_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="interviewee"/>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628145752927-11">
+        <addForeignKeyConstraint baseColumnNames="interviewer_id" baseTableName="scheduled_interview" constraintName="interviewer_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="interviewer"/>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628145752927-12">
+        <addForeignKeyConstraint baseColumnNames="positions_id" baseTableName="scheduled_interview" constraintName="positions_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="positions"/>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628145752927-13">
+        <addForeignKeyConstraint baseColumnNames="round_id" baseTableName="scheduled_interview" constraintName="round_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="round"/>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628146262182-1">
+        <createTable tableName="interviewee">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="skills" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="experience" type="VARCHAR(45)"/>
+            <column name="qualification" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628146262182-2">
+        <createTable tableName="interviewer">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628146262182-3">
+        <createTable tableName="positions">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628146262182-4">
+        <createTable tableName="round">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sequence" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628146262182-5">
+        <createTable tableName="scheduled_interview">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="interviewee_id" type="INT"/>
+            <column name="interviewer_id" type="INT"/>
+            <column name="positions_id" type="INT"/>
+            <column name="round_id" type="INT"/>
+            <column name="time" type="datetime(6)"/>
+            <column name="status" type="VARCHAR(45)"/>
+            <column name="isdeleted" type="BIT(1)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628146262182-6">
+        <createIndex indexName="intervieweeid_idx" tableName="scheduled_interview">
+            <column name="interviewee_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628146262182-7">
+        <createIndex indexName="interviewerid_idx" tableName="scheduled_interview">
+            <column name="interviewer_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628146262182-8">
+        <createIndex indexName="positionid_idx" tableName="scheduled_interview">
+            <column name="positions_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628146262182-9">
+        <createIndex indexName="roundid_idx" tableName="scheduled_interview">
+            <column name="round_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628146262182-10">
+        <addForeignKeyConstraint baseColumnNames="interviewee_id" baseTableName="scheduled_interview" constraintName="interviewee_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="interviewee"/>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628146262182-11">
+        <addForeignKeyConstraint baseColumnNames="interviewer_id" baseTableName="scheduled_interview" constraintName="interviewer_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="interviewer"/>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628146262182-12">
+        <addForeignKeyConstraint baseColumnNames="positions_id" baseTableName="scheduled_interview" constraintName="positions_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="positions"/>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628146262182-13">
+        <addForeignKeyConstraint baseColumnNames="round_id" baseTableName="scheduled_interview" constraintName="round_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="round"/>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628146272154-1">
+        <createTable tableName="interviewee">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="skills" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="experience" type="VARCHAR(45)"/>
+            <column name="qualification" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628146272154-2">
+        <createTable tableName="interviewer">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628146272154-3">
+        <createTable tableName="positions">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628146272154-4">
+        <createTable tableName="round">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sequence" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628146272154-5">
+        <createTable tableName="scheduled_interview">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="interviewee_id" type="INT"/>
+            <column name="interviewer_id" type="INT"/>
+            <column name="positions_id" type="INT"/>
+            <column name="round_id" type="INT"/>
+            <column name="time" type="datetime(6)"/>
+            <column name="status" type="VARCHAR(45)"/>
+            <column name="isdeleted" type="BIT(1)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628146272154-6">
+        <createIndex indexName="intervieweeid_idx" tableName="scheduled_interview">
+            <column name="interviewee_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628146272154-7">
+        <createIndex indexName="interviewerid_idx" tableName="scheduled_interview">
+            <column name="interviewer_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628146272154-8">
+        <createIndex indexName="positionid_idx" tableName="scheduled_interview">
+            <column name="positions_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628146272154-9">
+        <createIndex indexName="roundid_idx" tableName="scheduled_interview">
+            <column name="round_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628146272154-10">
+        <addForeignKeyConstraint baseColumnNames="interviewee_id" baseTableName="scheduled_interview" constraintName="interviewee_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="interviewee"/>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628146272154-11">
+        <addForeignKeyConstraint baseColumnNames="interviewer_id" baseTableName="scheduled_interview" constraintName="interviewer_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="interviewer"/>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628146272154-12">
+        <addForeignKeyConstraint baseColumnNames="positions_id" baseTableName="scheduled_interview" constraintName="positions_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="positions"/>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628146272154-13">
+        <addForeignKeyConstraint baseColumnNames="round_id" baseTableName="scheduled_interview" constraintName="round_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="round"/>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628147473530-1">
+        <createTable tableName="interviewee">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="skills" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="experience" type="VARCHAR(45)"/>
+            <column name="qualification" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628147473530-2">
+        <createTable tableName="interviewer">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628147473530-3">
+        <createTable tableName="positions">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(200)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628147473530-4">
+        <createTable tableName="round">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sequence" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628147473530-5">
+        <createTable tableName="scheduled_interview">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="interviewee_id" type="INT"/>
+            <column name="interviewer_id" type="INT"/>
+            <column name="positions_id" type="INT"/>
+            <column name="round_id" type="INT"/>
+            <column name="time" type="datetime(6)"/>
+            <column name="status" type="VARCHAR(45)"/>
+            <column name="isdeleted" type="BIT(1)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628147473530-6">
+        <createIndex indexName="intervieweeid_idx" tableName="scheduled_interview">
+            <column name="interviewee_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628147473530-7">
+        <createIndex indexName="interviewerid_idx" tableName="scheduled_interview">
+            <column name="interviewer_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628147473530-8">
+        <createIndex indexName="positionid_idx" tableName="scheduled_interview">
+            <column name="positions_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628147473530-9">
+        <createIndex indexName="roundid_idx" tableName="scheduled_interview">
+            <column name="round_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628147473530-10">
+        <addForeignKeyConstraint baseColumnNames="interviewee_id" baseTableName="scheduled_interview" constraintName="interviewee_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="interviewee"/>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628147473530-11">
+        <addForeignKeyConstraint baseColumnNames="interviewer_id" baseTableName="scheduled_interview" constraintName="interviewer_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="interviewer"/>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628147473530-12">
+        <addForeignKeyConstraint baseColumnNames="positions_id" baseTableName="scheduled_interview" constraintName="positions_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="positions"/>
+    </changeSet>
+    <changeSet author="himanshu.nimavat (generated)" id="1628147473530-13">
+        <addForeignKeyConstraint baseColumnNames="round_id" baseTableName="scheduled_interview" constraintName="round_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="round"/>
+    </changeSet>
+</databaseChangeLog>
